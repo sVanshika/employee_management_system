@@ -1,6 +1,6 @@
 package base.model;
 
-import javax.persistence.Embeddable;
+// import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,9 +23,9 @@ public class FamilyMember {
     private int age;
     private String relation;
 
-    // @ManyToOne
+    @ManyToOne
     // @JoinColumn(name="employeeId")
-    // private Employee employee;
+    private Employee employee;
 
     public FamilyMember() {
     }

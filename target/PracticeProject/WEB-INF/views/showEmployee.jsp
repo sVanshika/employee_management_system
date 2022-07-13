@@ -199,7 +199,7 @@
 
         </div> 
         
-        <!-- <div class="accordion" id="accordionFamily">
+        <div class="accordion" id="accordionFamily">
             <div class="card">
             
                 <div class="card-header" id="familyMembers">
@@ -210,28 +210,34 @@
           
                 <div id="collapseOneFamily" class="collapse" aria-labelledby="familyMembers" data-parent="#accordionFamily">
                     
-                    <div class="card-body">    
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>First Name</label>
-                                <input id="family-member-first-name" name="familyMembers[0].firstName" class="form-control" >
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Last Name</label>
-                                <input id="family-member-last-name" name="familyMembers[0].lastName" class="form-control" >
+                    <c:forEach items="${employee.familyMembers}" var="member">
+
+                        <div class="card-body" id="member_container_card_body"> 
+                            <div class="container" style="width: 100%;border: 1px solid lightgrey;border-radius: 1rem;padding: 1rem; margin-bottom:1rem;">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>First Name</label>
+                                        <input id="family-member-first-name" name="member.firstName" class="form-control" >
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Last Name</label>
+                                        <input id="family-member-last-name" name="member.lastName" class="form-control" >
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Age</label>
+                                        <input id="family-member-age" name="member.age" class="form-control" >
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Relation</label>
+                                        <input id="family-member-relation" name="member.relation" class="form-control" >
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label>Age</label>
-                                <input id="family-member-age" name="familyMembers[0].age" class="form-control" >
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Relation</label>
-                                <input id="family-member-relation" name="familyMembers[0].relation" class="form-control" >
-                            </div>
-                        </div>
-                    </div>
+
+                    </c:forEach>
 
                     
                 </div>
@@ -240,7 +246,7 @@
             
             
         
-        </div> -->
+        </div>
         
         <div class="d-flex justify-content-center mt-3">
             <a class="btn btn-danger" href="./" style="padding: 1rem 3rem;  margin: 1rem;">Home Page</a>

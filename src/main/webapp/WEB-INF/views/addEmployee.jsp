@@ -81,6 +81,7 @@
                 <small>All fields marked with * are required</small>
             </div>
 
+            <!-- firstname, lastname -->
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>First Name *</label>
@@ -96,6 +97,7 @@
                 </div>
             </div>
 
+            <!-- age , sex -->
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Age</label>
@@ -112,6 +114,7 @@
                 </div>
             </div>            
                 
+            <!-- id -->
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label>Identity Proof Choice *</label>
@@ -132,6 +135,7 @@
                 </div>
             </div>
 
+            <!-- mobile number, religion, email id -->
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label>Mobile Number</label>
@@ -147,6 +151,7 @@
                 </div>
             </div>
 
+            <!-- temporary and permanent accordian -->
             <div class="accordion" id="accordionAddress">
                 <div class="card">
                 
@@ -260,7 +265,8 @@
             
             </div> 
             
-            <!-- <div class="accordion" id="accordionFamily">
+            <!-- family members accordian -->
+            <div class="accordion" id="accordionFamily">
                 <div class="card">
                 
                     <div class="card-header" id="familyMembers">
@@ -271,33 +277,33 @@
               
                     <div id="collapseOneFamily" class="collapse" aria-labelledby="familyMembers" data-parent="#accordionFamily">
                         
-                        <div class="member_container">
+                        <div class="container" style="width: 100%;">
                         <button class="btn btn-warning" type="button" onclick="addFamilyMember()">
                             Add +
                         </button>
 
-                        <div class="card-body"> 
-                            <div class="memberForm" style="border: 1px solid black;">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label>First Name</label>
-                                    <input id="family-member-first-name" name="familyMembers[0].firstName" class="form-control" >
+                        <div class="card-body" id="member_container_card_body"> 
+                            <div class="container" style="width: 100%;border: 1px solid lightgrey;border-radius: 1rem;padding: 1rem; margin-bottom:1rem;">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>First Name</label>
+                                        <input id="family-member-first-name" name="familyMembers[0].firstName" class="form-control" >
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Last Name</label>
+                                        <input id="family-member-last-name" name="familyMembers[0].lastName" class="form-control" >
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label>Last Name</label>
-                                    <input id="family-member-last-name" name="familyMembers[0].lastName" class="form-control" >
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Age</label>
+                                        <input id="family-member-age" name="familyMembers[0].age" class="form-control" >
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Relation</label>
+                                        <input id="family-member-relation" name="familyMembers[0].relation" class="form-control" >
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label>Age</label>
-                                    <input id="family-member-age" name="familyMembers[0].age" class="form-control" >
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>Relation</label>
-                                    <input id="family-member-relation" name="familyMembers[0].relation" class="form-control" >
-                                </div>
-                            </div>
                             </div>
                         </div>
 
@@ -310,8 +316,9 @@
                 
                 
             
-            </div>  -->
+            </div>  
 
+            <!-- terms and conditions -->
             <div class="form-row">
                 <input class="form-check-input" type="checkbox" value="" id="terms" required>
                 <label class="form-check-label" for="terms">
@@ -320,9 +327,9 @@
                 <div class="invalid-feedback" id="terms-invalid-feedback">Please agree to terms and conditions</div>
             </div>
 
+            <!-- buttons -->
             <div class="d-flex justify-content-center mt-3">
                 <input class="btn btn-success" type="submit" style="padding: 1rem 3rem; margin: 1rem;">
-
                 <a class="btn btn-danger" href="./" style="padding: 1rem 3rem; margin: 1rem;">Cancel</a>
                 <input class="btn btn-secondary" type="reset" value="Clear" style="padding: 1rem 3rem; margin: 1rem;">
             </div>
@@ -334,8 +341,45 @@
 
         <script type="text/javascript">
 
-            function addFamilyMember(){
+            var family_member_counter = 0;
 
+            function addFamilyMember(){
+                console.log("add family mmeber ()");
+
+                family_member_counter += 1;
+
+                var html = `
+                <div class="container" style="width: 100%;border: 1px solid lightgrey;border-radius: 1rem;padding: 1rem; margin-bottom:1rem;">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>First Name</label>
+                                        <input id="family-member-first-name" name="familyMembers[` + family_member_counter + `].firstName" class="form-control" >
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Last Name</label>
+                                        <input id="family-member-last-name" name="familyMembers[` + family_member_counter + `].lastName" class="form-control" >
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Age</label>
+                                        <input id="family-member-age" name="familyMembers[` + family_member_counter + `].age" class="form-control" >
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Relation</label>
+                                        <input id="family-member-relation" name="familyMembers[` + family_member_counter + `].relation" class="form-control" >
+                                    </div>
+                                </div>
+                            </div>
+                `;
+
+                // var member_container = document.getElementById('member_container_card_body');
+                // member_container.append(html);
+
+                $(document).ready(function() {
+
+                $('#member_container_card_body').append(html);
+                });
             }
 
             function putAddress(obj) {
