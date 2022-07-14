@@ -217,21 +217,21 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>First Name</label>
-                                        <input id="family-member-first-name" name="member.firstName" class="form-control" >
+                                        <input id="family-member-first-name" value="${member.firstName}" class="form-control" >
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Last Name</label>
-                                        <input id="family-member-last-name" name="member.lastName" class="form-control" >
+                                        <input id="family-member-last-name" value="${member.lastName}" class="form-control" >
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Age</label>
-                                        <input id="family-member-age" name="member.age" class="form-control" >
+                                        <input id="family-member-age" value="${member.age}" class="form-control" >
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Relation</label>
-                                        <input id="family-member-relation" name="member.relation" class="form-control" >
+                                        <input id="family-member-relation" value="${member.relation}" class="form-control" >
                                     </div>
                                 </div>
                             </div>

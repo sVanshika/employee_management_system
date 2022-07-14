@@ -3,6 +3,7 @@ package base.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -51,8 +52,11 @@ public class Employee {
     private String emailId;
     private long mobileNumber;
 
-    @OneToMany(mappedBy = "employee")
-    private List<FamilyMember> familyMembers;
+    // @OneToMany(mappedBy = "employee")
+    @ElementCollection
+    @CollectionTable(name = "FamilyMember", 
+        joinColumns = @JoinColumn(name = "FamilyMember"))
+    private List<FamilyMember> familyMembers = new ArrayList<>();
 
     public Employee() {
     }

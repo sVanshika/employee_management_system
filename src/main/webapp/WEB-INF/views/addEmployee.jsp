@@ -373,8 +373,6 @@
                             </div>
                 `;
 
-                // var member_container = document.getElementById('member_container_card_body');
-                // member_container.append(html);
 
                 $(document).ready(function() {
 

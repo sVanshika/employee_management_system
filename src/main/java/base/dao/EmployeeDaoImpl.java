@@ -39,14 +39,16 @@ public class EmployeeDaoImpl implements EmployeeDao{
     }
 
     @Override
-    public Employee getByDetails(String firstName, String lastName, String identityProof){
+    public Employee getByDetails(String firstName, String lastName, String identityProof, String email){
         System.out.println("======= employee dao impl - get by details ========");
         
-        String hql = "FROM Employee E WHERE E.firstName=:FNAME AND E.lastName=:LNAME AND E.identityProof=:ID";
+        String hql = "FROM Employee E WHERE UPPER(E.firstName)=:FNAME AND UPPER(E.lastName)=:LNAME AND (E.identityProof=:ID OR E.emailId=:EMAIL)";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter("FNAME", firstName);
-        query.setParameter("LNAME", lastName);
+        
+        query.setParameter("FNAME", firstName.toUpperCase());
+        query.setParameter("LNAME", lastName.toUpperCase());
         query.setParameter("ID", identityProof);
+        query.setParameter("EMAIL", email);
 
         List<Employee> employees = query.list();
 
@@ -56,6 +58,8 @@ public class EmployeeDaoImpl implements EmployeeDao{
         Employee emp = employees.get(0);
 
         emp.getTempAddress();
+        emp.getPermAddress();
+        emp.getFamilyMembers();
 
         System.out.println("-------------" + emp);
 

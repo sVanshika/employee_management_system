@@ -19,6 +19,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
+    <style>
+        .alert-success, .alert-danger{
+                width: 25%;
+                position: fixed;
+                right: 1px;
+            }
+            .hide{
+                display: none;
+            }
+    </style>
     <script>
         var employeeExist = "${employeeExist}";
         var errorMessage = "${errorMessage}";
@@ -26,10 +36,15 @@
         console.log("exist = " + employeeExist);
         console.log("error = " + errorMessage);
 
-        window.onload = () => {
+        window.onload = (event) => {
             if(employeeExist == "false"){
-                alert(errorMessage);
-                window.location = './searchEmployee';
+               // event.preventDefault();
+
+                var alertBox = document.getElementById('alert-danger');
+                if(alertBox != null){
+                    alertBox.classList.remove('hide');        
+                }
+                //window.location = './searchEmployee';
             }
 
         }
@@ -52,6 +67,11 @@
 
     <div style="background-color:#f5f5f5; padding:0.5rem 2rem; margin-bottom:3rem">
         <h3>NSEL EMPLOYEES</h3>
+    </div>
+
+    <div class="alert alert-danger hide alert-dismissible" id="alert-danger" role="alert">
+        <p id="alert-danger-p">Employee does not exist</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick=""></button>
     </div>
 
     <div class="container" style="width: 50%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);border-radius: 20px;">
@@ -95,15 +115,28 @@
                 </div>
             </div>
 
-            <div class="mt-3">
-                <button class="btn btn-success" type="submit" style="padding: 1rem 3rem;  margin: 1rem;">Submit</button>
-                <a class="btn btn-danger" href="./" style="padding: 1rem 3rem;  margin: 1rem;">Cancel</a>
-                <input class="btn btn-secondary" type="reset" value="Clear" style="padding: 1rem 3rem;  margin: 1rem;">
+            <div class="form-row">
+                <div class="form-group col-md-12" style="text-align: center;">
+                    <p>OR</p>
+                </div>
             </div>
 
-        </form>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label id="emailId">Email ID</label>
+                    <input id="emailId" name="emailId" class="form-control" required >
+                    <div class="invalid-feedback">Please enter email</div>
+                </div>
+            </div>
 
-        
+            <div class="form-row">
+                <div class="form-group  col-md-12 d-flex justify-content-center">
+                    <button class="btn btn-success" type="submit" style="padding: 1rem 3rem;  margin: 1rem;">Submit</button>
+                    <a class="btn btn-danger" href="./" style="padding: 1rem 3rem;  margin: 1rem;">Cancel</a>
+                    <input class="btn btn-secondary" type="reset" value="Clear" style="padding: 1rem 3rem;  margin: 1rem;">
+                </div>
+            </div>
+        </form>     
 
     </div>
     

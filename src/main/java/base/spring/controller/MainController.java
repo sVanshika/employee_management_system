@@ -65,20 +65,21 @@ public class MainController {
         return new ModelAndView(view, model, employee);
     }
 
-    // @GetMapping("/showEmployee")
-    // public void getShowEmployee(){
-    //     searchEmployee();
-    // }
+    
 
     @PostMapping("/showEmployee")
     public String showEmployee(@ModelAttribute("employeeToSearch") Employee employeeToSearch, Model dataModel){
+        System.out.println("=============show employee===============");
         String fName = employeeToSearch.getFirstName();
         String lName = employeeToSearch.getLastName();
         String identityProof = employeeToSearch.getIdentityProof();
+        String email = employeeToSearch.getEmailId();
 
-        Employee employee = employeeService.getByDetails(fName, lName, identityProof);
+        System.out.println(fName + " - " + lName + " - " + identityProof + " - " + email);
 
-        System.out.println("!!!!!!!!! employee" + employee);
+        Employee employee = employeeService.getByDetails(fName, lName, identityProof, email);
+
+        System.out.println("!!!!!!!!! employee -> " + employee);
 
         if(employee == null){
             dataModel.addAttribute("employeeExist", "false");

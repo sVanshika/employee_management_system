@@ -7,5 +7,5 @@ public interface EmployeeDao {
     Employee getById(String id);
     void save(Employee employee);
     List<Employee> getAll();
-    Employee getByDetails(String firstName, String lastName, String identityProof);
+    Employee getByDetails(String firstName, String lastName, String identityProof, String email);
 }

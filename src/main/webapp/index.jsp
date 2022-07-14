@@ -1,3 +1,6 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +35,9 @@
         <a class="btn btn-primary" href="./searchEmployee" role="button">Search Employee</a>
         
     </div>
+
+    <!-- <img alt="image"  src='<c:url value="/resources/img/people.png" />' > -->
+
 
     
 

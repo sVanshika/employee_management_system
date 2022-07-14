@@ -37,9 +37,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     @Transactional(propagation =  Propagation.REQUIRED)
-    public Employee getByDetails(String firstName, String lastName, String identityProof)
+    public Employee getByDetails(String firstName, String lastName, String identityProof, String email)
     {
         System.out.println("======= employee service impl - get by details ========");
-        return employeeDao.getByDetails(firstName, lastName, identityProof);
+        return employeeDao.getByDetails(firstName, lastName, identityProof, email);
     }
 }

@@ -21,14 +21,9 @@ public class WebApplicationInitializerImpl implements WebApplicationInitializer 
         // registering listener
         servletContext.addListener(ctxListener);
 
-        // adding security filter - DelegatingProxyFilter
-        // DelegatingFilterProxy delegatingFilterProxy = new DelegatingFilterProxy("springSecurityFilterChain");
-        // servletContext.addFilter("securityFilter", delegatingFilterProxy);
-
-        // registring DispatcherServlet class with ServletContext
-        // These below lines are equivalent to what we wrote in web.xml
         DispatcherServlet frontController = new DispatcherServlet(webCtx);
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("DispatcherServlet", frontController);
+        
         dispatcher.addMapping("/"); //<url-pattern>
     }
 
