@@ -21,8 +21,12 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <style>
+
         .form-control[readonly]{
             background-color: white;
+        }
+        .form-control[readonly]::placeholder{
+            color: black;
         }
     </style>
 
@@ -33,7 +37,7 @@
         <h3>NSEL EMPLOYEES</h3>
     </div> 
 
-    <div class="container"  style="width: 50%;/* border: 1px solid #f5f5f5; */box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);border-radius: 20px;">
+    <div class="container"  style="width: 75%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);border-radius: 20px;">
     <!-- title -->
     <div class="title d-flex justify-content-center my-3">
         <h1 class="title">Employee</h1>
@@ -211,27 +215,24 @@
                 <div id="collapseOneFamily" class="collapse" aria-labelledby="familyMembers" data-parent="#accordionFamily">
                     
                     <c:forEach items="${employee.familyMembers}" var="member">
-
                         <div class="card-body" id="member_container_card_body"> 
-                            <div class="container" style="width: 100%;border: 1px solid lightgrey;border-radius: 1rem;padding: 1rem; margin-bottom:1rem;">
+                            <div class="container" style="width: 100%;padding: 1rem;">
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label>First Name</label>
-                                        <input id="family-member-first-name" value="${member.firstName}" class="form-control" >
+                                        <input id="family-member-first-name" value="${member.firstName}" class="form-control" readonly>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label>Last Name</label>
-                                        <input id="family-member-last-name" value="${member.lastName}" class="form-control" >
+                                        <input id="family-member-last-name" value="${member.lastName}" class="form-control" readonly>
                                     </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label>Age</label>
-                                        <input id="family-member-age" value="${member.age}" class="form-control" >
+                                        <input id="family-member-age" value="${member.age}" class="form-control" readonly>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label>Relation</label>
-                                        <input id="family-member-relation" value="${member.relation}" class="form-control" >
+                                        <input id="family-member-relation" value="${member.relation}" class="form-control" readonly>
                                     </div>
                                 </div>
                             </div>

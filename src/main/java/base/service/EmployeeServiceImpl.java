@@ -42,4 +42,12 @@ public class EmployeeServiceImpl implements EmployeeService{
         System.out.println("======= employee service impl - get by details ========");
         return employeeDao.getByDetails(firstName, lastName, identityProof, email);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Employee duplicateEmployee(Employee employee) {
+        // TODO Auto-generated method stub
+        System.out.println("========== employee service impl - duplicate employe ========");
+        return employeeDao.duplicateEmployee(employee);
+    }
 }

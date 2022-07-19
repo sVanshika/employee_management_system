@@ -65,4 +65,26 @@ public class EmployeeDaoImpl implements EmployeeDao{
 
         return emp;
     }
+
+    @Override
+    public Employee duplicateEmployee(Employee employee) {
+        // TODO Auto-generated method stub
+
+        String hql = "FROM Employee E WHERE E.identity=:IDNAME AND E.identityProof=:ID";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        
+        query.setParameter("IDNAME", employee.getIdentity());
+        query.setParameter("ID", employee.getIdentityProof());
+
+        List<Employee> duplicateEmployees = query.list();
+
+        System.out.println("!duplicate => " + duplicateEmployees);
+        if(duplicateEmployees.size() == 0){
+            return null;
+        }
+
+        Employee emp = duplicateEmployees.get(0);
+        
+        return emp;
+    }
 }

@@ -22,6 +22,19 @@
             font-size: 2rem;
             margin: 2rem;
         }
+        .btn-warning, .btn-warning:hover{
+            color: #fff;
+            background-color: #fa7466;
+            border-color: #fa7466;
+        }
+        
+        .btn-primary, .btn-primary:hover{
+            color: #fff;
+            background-color: #648cd5;
+            border-color: #648cd5;
+        }
+
+
     </style>
 </head>
 <body>
@@ -30,13 +43,28 @@
         <h3>NSEL EMPLOYEES</h3>
     </div>
 
-    <div class="d-flex justify-content-center">
-        <a class="btn btn-primary" href="./addEmployee" role="button">Add Employee</a>
-        <a class="btn btn-primary" href="./searchEmployee" role="button">Search Employee</a>
-        
-    </div>
+    
 
-    <!-- <img alt="image"  src='<c:url value="/resources/img/people.png" />' > -->
+    
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img 
+                    alt="image"  
+                    src="https://img.freepik.com/premium-vector/happy-business-colleagues-team-portrait_179970-1271.jpg?w=2000"
+                    style="width: 100%; height:100%;" 
+                >
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex flex-column justify-content-center" style="padding-top: 12.5%;">
+                    <a class="btn btn-primary" href="./addEmployee" role="button">Add Employee</a>
+                    <a class="btn btn-warning" href="./searchEmployee" role="button">Search Employee</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     

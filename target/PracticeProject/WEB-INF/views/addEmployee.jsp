@@ -1,4 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page isELIgnored="false"%>
+
 
 <!-- mvn package && copy C:\Users\Vanshika\IdeaProjects\PracticeProject\target\PracticeProject.war  D:\Downloads\wildfly-26.0.1.Final\wildfly-26.0.1.Final\standalone\deployments -->
 
@@ -19,6 +21,9 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
         <style>
+            .alert{
+                z-index: 10;
+            }
             .alert-success, .alert-danger{
                 width: 25%;
                 position: fixed;
@@ -30,19 +35,22 @@
             .form{
                 clear: both;
             }
+            .accordion{
+                margin: 1.5rem 0;
+            }
+            .accordion-button{
+                font-size: 14px;
+                
+            }
+            .accordion-header{
+                margin: 0;
+                background: #eee;
+            }
         </style>
 
         <script>
-            function setIdentityProofLabel(){
-                var idChosen = document.getElementById("identity");
-                var identityProofLabel = document.getElementById("identityProofLabel");
             
-                identityProofLabel.innerHTML = idChosen.value + " *";
-            }
-
-            
-            
-   
+                   
         </script>
 
 
@@ -62,11 +70,16 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick=""></button>
         </div>
 
+        <div class="alert alert-danger alert-dismissible hide" id="alert-duplicate" role="alert">
+            <p id="alert-duplicate-p">Employee already exists.</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick=""></button>
+        </div>
+
         <div id="alert-sucess-placeholder"></div>
         <div id="alert-danger-placeholder"> </div>
 
 
-        <div class="container"  style="width: 50%;/* border: 1px solid #f5f5f5; */box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);border-radius: 20px;">
+        <div class="container"  style="width: 75%;/* border: 1px solid #f5f5f5; */box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);border-radius: 20px;">
 
         <!-- title -->
         <div class="title d-flex justify-content-center my-3">
@@ -129,9 +142,10 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label id="identityProofLabel">Choose Identity</label>
-                    <input id="identityProof" name="identityProof" class="form-control" required >
-                    <div class="invalid-feedback" id="idProof-invalid-feedback">Please enter Identity Proof</div>
-                    <!-- <div class="valid-feedback">Looks Good</div> -->
+                    <input id="identityProof" name="identityProof" class="form-control" onblur="verifyLength()" required >
+                    <div class="invalid-feedback" id="idProof-invalid-feedback">
+                        Please enter valid Identity Proof. <br><small>Length should be greater than 9 characters.</small>
+                    </div>
                 </div>
             </div>
 
@@ -143,7 +157,16 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label>Religion</label>
-                    <input id="religion" name="religion" class="form-control" >
+                    <select id="religion" name="religion" class="form-control">
+                        <option selected disabled value="">Select</option>
+                        <option value="PAN">Hinduism</option>
+                        <option value="Christianity">Christianity</option>
+                        <option value="Islam">Islam</option>
+                        <option value="Sikhism">Sikhism</option>
+                        <option value="Buddhism">Buddhism</option>
+                        <option value="Jainism">Jainism</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
                 <div class="form-group col-md-4">
                     <label>Email Id</label>
@@ -151,19 +174,28 @@
                 </div>
             </div>
 
-            <!-- temporary and permanent accordian -->
-            <div class="accordion" id="accordionAddress">
-                <div class="card">
-                
-                    <div class="card-header" id="temporaryAddress">
-                        <button class="btn mb-0" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                Temporary Address
-                        </button>                          
-                    </div>
-              
-                    <div id="collapseOne" class="collapse" aria-labelledby="temporaryAddress" data-parent="#accordionAddress">
-                        <div class="card-body">
-                            
+            <div class="accordion" id="accordionExample" style="visibility: hidden !important;">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="heading">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="true" aria-controls="collapse">
+                      Accordion Item #1
+                    </button>
+                  </h2>
+                  <div id="collapse" class="accordion-collapse collapse show" aria-labelledby="heading" data-bs-parent="#accordionExample">
+                  </div>
+                </div>
+            </div>
+
+            <!-- Temporary address accordian -->
+            <div class="accordion" id="temp_address_accordian" style="margin-top: -4rem !important;">
+                <div class="accordion-item">
+                    <h1 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordian_body" aria-expanded="true" aria-controls="accordian_body">
+                            Temporary Address
+                        </button>
+                    </h1>
+                    <div id="accordian_body" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#temp_address_accordian">
+                        <div class="accordion-body container" style="width: 100%;">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label>Plot No.</label>
@@ -193,28 +225,30 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Pincode</label>
-                                    <input id="pincode" name="tempAddress.pincode" class="form-control" required>
-                                    <div class="invalid-feedback" id="tempPinCode-invalid-feedback">Please enter pincode</div>
-                                    <!-- <div class="valid-feedback">Looks Good</div> -->
+                                    <input id="pincode" name="tempAddress.pincode" class="form-control" onblur="verifyLength()" required>
+                                    <div class="invalid-feedback" id="tempPinCode-invalid-feedback">
+                                        Please enter pincode <br><small>Length should be equal to 6 characters.</small>
+                                    </div>
 
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    
                 </div>
-                
-                <div class="card">
-                
-                    <div class="card-header" id="permanentAddress">
-                        <button class="btn mb-0" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Permanent Address
-                        </button>                          
-                    </div>
-              
-                    <div id="collapseTwo" class="collapse" aria-labelledby="permanentAddress" data-parent="#accordionAddress">
-                        <div class="card-body">
+            </div>
+            
+            
+            <!-- Permanent address accordian -->
+            <div class="accordion" id="address_accordian">
+                <div class="accordion-item">
+                    <h1 class="accordion-header" id="headingOne_perm">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordian_body_perm" aria-expanded="true" aria-controls="accordian_body_perm">
+                            Permanent Address
+                        </button>
+                    </h1>
+                    <div id="accordian_body_perm" class="accordion-collapse collapse" aria-labelledby="headingOne_perm" data-bs-parent="#address_accordian">
+                        <div class="accordion-body container" style="width: 100%;">
                             
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" id="checkbox" onchange="putAddress(this)">
@@ -252,75 +286,47 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Pincode</label>
-                                    <input id="pincode_perm" name="permAddress.pincode" class="form-control" required >
-                                    <div class="invalid-feedback" id="permanentPinCode-invalid-feedback">Please enter pincode</div>
+                                    <input id="pincode_perm" name="permAddress.pincode" class="form-control" onblur="verifyLength()" required >
+                                    <div class="invalid-feedback" id="permanentPinCode-invalid-feedback">Please enter pincode <br><small>Length should be equal to 6 characters.</small></div>
                                     <!-- <div class="valid-feedback">Looks Good</div> -->
                                 </div>
                             </div>
-
+                            
                         </div>
                     </div>
-                    
                 </div>
+            </div>
+
             
-            </div> 
-            
+
             <!-- family members accordian -->
-            <div class="accordion" id="accordionFamily">
-                <div class="card">
-                
-                    <div class="card-header" id="familyMembers">
-                        <button class="btn mb-0" type="button" data-toggle="collapse" data-target="#collapseOneFamily" aria-expanded="false" aria-controls="collapseOneFamily">
-                                Add Family Members
-                        </button>                          
-                    </div>
-              
-                    <div id="collapseOneFamily" class="collapse" aria-labelledby="familyMembers" data-parent="#accordionFamily">
-                        
-                        <div class="container" style="width: 100%;">
-                        <button class="btn btn-warning" type="button" onclick="addFamilyMember()">
-                            Add +
-                        </button>
+            <div class="accordion" id="family_accordian" style="border: 1px solid #eee;">
+                <div class="accordion-item">
+                    <!-- header -->
+                    <h1 class="accordion-header d-flex justify-content-between" id="headingOne_family">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordian_body_family" aria-expanded="true" aria-controls="accordian_body_family">
+                            
+                            Add Family Members
 
-                        <div class="card-body" id="member_container_card_body"> 
-                            <div class="container" style="width: 100%;border: 1px solid lightgrey;border-radius: 1rem;padding: 1rem; margin-bottom:1rem;">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label>First Name</label>
-                                        <input id="family-member-first-name" name="familyMembers[0].firstName" class="form-control" >
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Last Name</label>
-                                        <input id="family-member-last-name" name="familyMembers[0].lastName" class="form-control" >
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label>Age</label>
-                                        <input id="family-member-age" name="familyMembers[0].age" class="form-control" >
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Relation</label>
-                                        <input id="family-member-relation" name="familyMembers[0].relation" class="form-control" >
-                                    </div>
-                                </div>
+                            <div class="buttons d-flex">
+                                <button class="btn btn-success add-button" type="button" onclick="addFamilyMember()"> + </button>
+                                <button class="btn btn-danger remove-button" type="button" onclick="removeFamilyMember()"> - </button>
                             </div>
-                        </div>
+                        </button>
+                    </h1>
 
+                    <!-- body -->
+                    <div id="accordian_body_family" class="accordion-collapse collapse" aria-labelledby="headingOne_family" data-bs-parent="#family_accordian">
+                        <div class="accordion-body container" style="width: 100%;" >
+                            <div id="member_container_card_body"></div>                           
                         </div>
-
-                        
                     </div>
-                    
                 </div>
-                
-                
-            
-            </div>  
+            </div>              
 
             <!-- terms and conditions -->
-            <div class="form-row">
-                <input class="form-check-input" type="checkbox" value="" id="terms" required>
+            <div class="form-row d-flex justify-content-center" style="margin-top: 2rem;">
+                <input class="form-check-input" type="checkbox" value="" id="terms" style="margin-right: 1rem;" required>
                 <label class="form-check-label" for="terms">
                     Agree to terms and conditions
                 </label>
@@ -337,47 +343,159 @@
            
         </form>
 
+        </div>
+
         
 
         <script type="text/javascript">
 
-            var family_member_counter = 0;
+            window.onload = (event) => {
+
+                var duplicateEmployeeExists = "${duplicateEmployeeExists}";
+                console.log("duplicate exists = " + duplicateEmployeeExists);
+                if(duplicateEmployeeExists == "true"){
+                    fillFields();
+                    showDuplicateAlert();                   
+                }
+
+                var employeeAdded = "${employeeAdded}";
+                console.log("employee added = " + employeeAdded);
+                if(employeeAdded == "true"){
+                    showSuccessAlert();                
+                }
+            };
+
+            function fillFields(){
+                document.getElementById('firstName').value = "${duplicateEmployee.firstName}";
+                document.getElementById('lastName').value = "${duplicateEmployee.lastName}";
+                document.getElementById('age').value = "${duplicateEmployee.age}";
+                // sex
+                // id
+                document.getElementById('identityProof').value = "${duplicateEmployee.identityProof}";
+                document.getElementById('mobileNumber').value = "${duplicateEmployee.mobileNumber}";
+                // religion
+
+                document.getElementById('emailId').value = "${duplicateEmployee.emailId}";
+                document.getElementById('plotNo').value = "${duplicateEmployee.tempAddress.plotNo}";
+                document.getElementById('locality').value = "${duplicateEmployee.tempAddress.locality}";
+                document.getElementById('city').value = "${duplicateEmployee.tempAddress.city}";
+                document.getElementById('state').value = "${duplicateEmployee.tempAddress.state}";
+                document.getElementById('country').value = "${duplicateEmployee.tempAddress.country}";
+                
+                document.getElementById('pincode_perm').value = "${duplicateEmployee.permAddress.pincode}";
+                document.getElementById('plotNo_perm').value = "${duplicateEmployee.permAddress.plotNo}";
+                document.getElementById('locality_perm').value = "${duplicateEmployee.permAddress.locality}";
+                document.getElementById('city_perm').value = "${duplicateEmployee.permAddress.city}";
+                document.getElementById('state_perm').value = "${duplicateEmployee.permAddress.state}";
+                document.getElementById('country_perm').value = "${duplicateEmployee.permAddress.country}";
+                document.getElementById('pincode_perm').value = "${duplicateEmployee.permAddress.pincode}";
+
+                <c:forEach items="${employee.familyMembers}" var="member">
+                    addFamilyMember();
+
+
+
+                </c:forEach>
+
+
+
+
+                
+
+
+            }
+
+            function showDuplicateAlert(){
+                console.log("---- duplicate alert -----");
+
+                var idType = "${duplicateEmployee.identity}";
+                var id = "${duplicateEmployee.identityProof}";
+                    
+                var alertBox = document.getElementById("alert-duplicate");
+                console.log("alert box - " + alertBox);
+                alertBox.classList.remove("hide");
+
+                var alertBoxP = document.getElementById("alert-duplicate-p");    
+                alertBoxP.innerHTML = "Employee already exists. " + idType + " - " + id;
+
+                setTimeout(() => {alertBox.classList.add('hide')}, 2000);
+            }
+
+            function showSuccessAlert(){
+                console.log("---- success alert -----");
+                var alertBoxDanger = document.getElementById('alert-danger');
+                alertBoxDanger.classList.add('hide');
+
+                var alertBox = document.getElementById('alert-success');
+                alertBox.classList.remove('hide');
+
+                setTimeout(() => {window.location = "./"}, 1000);
+            }
+
+            function setIdentityProofLabel(){
+                    var idChosen = document.getElementById("identity");
+                    var identityProofLabel = document.getElementById("identityProofLabel");
+                
+                    identityProofLabel.innerHTML = idChosen.value + " *";
+                }
+
+            var family_member_counter = -1;
 
             function addFamilyMember(){
                 console.log("add family mmeber ()");
 
                 family_member_counter += 1;
 
+
+
                 var html = `
-                <div class="container" style="width: 100%;border: 1px solid lightgrey;border-radius: 1rem;padding: 1rem; margin-bottom:1rem;">
+                            <div class="container family-box" style="width: 100%;padding: 1rem; margin-bottom:1rem;">
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label>First Name</label>
-                                        <input id="family-member-first-name" name="familyMembers[` + family_member_counter + `].firstName" class="form-control" >
+                                        <input id="family-member-first-name-`+family_member_counter`" name="familyMembers[` + family_member_counter + `].firstName" class="form-control" >
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label>Last Name</label>
                                         <input id="family-member-last-name" name="familyMembers[` + family_member_counter + `].lastName" class="form-control" >
                                     </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label>Age</label>
                                         <input id="family-member-age" name="familyMembers[` + family_member_counter + `].age" class="form-control" >
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label>Relation</label>
-                                        <input id="family-member-relation" name="familyMembers[` + family_member_counter + `].relation" class="form-control" >
+                                        <select id="family-member-relation" name="familyMembers[` + family_member_counter + `].relation" class="form-control">
+                                            <option selected disabled value="">Select</option>
+                                            <option value="Father">Father</option>
+                                            <option value="Mother">Mother</option>
+                                            <option value="Brother">Brother</option>
+                                            <option value="Sister">Sister</option>
+                                            <option value="Grand Father">Grand Father</option>
+                                            <option value="Grand Mother">Grand Mother</option>
+                                            <option value="Uncle">Uncle</option>
+                                            <option value="Aunt">Aunt</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                 `;
 
 
-                $(document).ready(function() {
-
-                $('#member_container_card_body').append(html);
+                $(document).ready(function() { 
+                    $('#member_container_card_body').append(html);
                 });
+            }
+
+            function removeFamilyMember(){
+                family_member_counter -= 1;
+                var family_boxes = document.getElementsByClassName('family-box');
+                var num = family_boxes.length;
+                if(num > 0){
+                    // var card_body = document.getElementById('member_container_card_body');
+                    // card_body.removeChild(family_boxes[num-1]); 
+                    family_boxes[num-1].remove();
+                }
             }
 
             function putAddress(obj) {
@@ -410,6 +528,46 @@
             
             }
 
+            function verifyLength(){
+                var id = document.getElementById('identityProof');
+                var pincode = document.getElementById('pincode');
+                var pincode_perm = document.getElementById('pincode_perm');
+                
+                if(id.value.length < 9){
+                    console.log("id length is < 9");
+                    id.value = "";
+                    id.classList.add("is-invalid");
+                }
+                else{
+                    if(id.classList.contains("is-invalid")){
+                        id.classList.remove("is-invalid");
+                    }
+                    id.classList.add("is-valid");
+                }
+
+                if(pincode.value.length != 6){
+                    pincode.value = "";
+                    pincode.classList.add("is-invalid");
+                }
+                else{
+                    if(pincode.classList.contains("is-invalid")){
+                        pincode.classList.remove("is-invalid");
+                    }
+                    pincode.classList.add("is-valid");
+                }
+
+                if(pincode_perm.value.length != 6){
+                    pincode_perm.value = "";
+                    pincode_perm.classList.add("is-invalid");
+                }
+                else{
+                    if(pincode_perm.classList.contains("is-invalid")){
+                        pincode_perm.classList.remove("is-invalid");
+                    }
+                    pincode_perm.classList.add("is-valid");
+                }
+            }
+
             function validation(){
                     var firstName = document.getElementById('firstName').value;
                     var lastName = document.getElementById('lastName').value;
@@ -421,20 +579,29 @@
 
                     var invalidFields = [];
 
-                    if(firstName.length < 3)
+                    if(firstName.length < 3){
                         invalidFields.push('First Name ');
+                    }
                     
-                    if(lastName.length < 3)
+                    if(lastName.length < 3){
                         invalidFields.push('Last Name ');
+                    }
                     
-                    if(idProof.length == 0)
+                    if(idProof.length < 9){
+                        document.getElementById('identityProof').classList.add("is-invalid");
                         invalidFields.push('Identity Proof ');
+                         
+                    }
                     
-                    if(tempPinCode.length == 0)
+                    if(tempPinCode.length < 6){
+                        document.getElementById('pincode').classList.add("is-invalid");
                         invalidFields.push('Temporary Address - PinCode ');
+                    }
                     
-                    if(permanentPinCode.length == 0)
+                    if(permanentPinCode.length < 6){
+                        document.getElementById('pincode_perm').classList.add("is-invalid");
                         invalidFields.push('Permanent Address - PinCode ');
+                    }
                     
                     if(terms.checked == false)
                         invalidFields.push('Agree to terms and conditions');
@@ -454,14 +621,8 @@
                         if(alertBox != null){
                             alertBox.classList.remove('hide');
                             var alertBoxP = document.getElementById('alert-danger-p');
-
-                            var string = "";
-                            invalidFields.forEach((s) => {
-                                string = string.concat([s + " "]);
-                            });
-                            
-
                             alertBoxP.innerHTML = 'Please fill the required fields: ' + invalidFields;
+                            setTimeout(() => {alertBox.classList.add('hide')}, 8000);
                         }
                         else{
                             var alert_danger = document.getElementById('alert-danger-placeholder');
@@ -488,18 +649,12 @@
                             div.appendChild(button);
 
                             alert_danger.appendChild(div);
-
-        //                     <div class="alert alert-danger alert-dismissible hide" id="alert-danger" role="alert">
-        //     <p id="alert-danger-p">Please fill the required fields</p>
-        //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick=""></button>
-        // </div>
                         }
                     
                     }
                     else{
                         var alertBox = document.getElementById('alert-success');
                         alertBox.classList.remove('hide');
-
                     }
                 // })
             }
@@ -525,11 +680,11 @@
                             }
                             else{
 
-                                var alertBoxDanger = document.getElementById('alert-danger');
-                                alertBoxDanger.classList.add('hide');
+                                // var alertBoxDanger = document.getElementById('alert-danger');
+                                // alertBoxDanger.classList.add('hide');
 
-                                var alertBox = document.getElementById('alert-success');
-                                alertBox.classList.remove('hide');
+                                // var alertBox = document.getElementById('alert-success');
+                                // alertBox.classList.remove('hide');
 
                                 // alert('Employee added successfully !');
                             }

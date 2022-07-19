@@ -3,6 +3,7 @@ base\model\Identity.class
 base\spring\configuration\WebMvcConfigurerImpl.class
 base\spring\configuration\DbConfig.class
 base\spring\controller\MainController.class
+base\model\FamilyMember.class
 base\spring\configuration\WebApplicationInitializerImpl.class
 base\dao\EmployeeDaoImpl.class
 base\service\EmployeeServiceImpl.class

@@ -28,11 +28,12 @@ public class MainController {
         String view = "addEmployee";
         String model = "newEmployee";
         Employee employee = new Employee();
+
         return new ModelAndView(view, model, employee);
     }
 
     @PostMapping("/saveEmployee")
-    public String saveEmployee(@ModelAttribute("newEmployee") Employee newEmployee, BindingResult bindingResult){
+    public String saveEmployee(@ModelAttribute("newEmployee") Employee newEmployee, BindingResult bindingResult, Model dataModel){
         System.out.println("======== save employee ========");
 
         if(bindingResult.hasErrors()){
@@ -45,10 +46,28 @@ public class MainController {
 
         System.out.println("!!!!!!!!!!! " + newEmployee);
 
-        employeeService.save(newEmployee);
+        // =================================
+        // check for duplicate
+        // =================================
 
+        Employee duplicateEmployee = employeeService.duplicateEmployee(newEmployee);
+        if(duplicateEmployee != null){
+
+            System.out.println("!!!! dupli");
+
+            // boolean duplicateEmployeeExists = true;
+            dataModel.addAttribute("duplicateEmployeeExists", "true");
+            dataModel.addAttribute("duplicateEmployee", duplicateEmployee);
         
-        return "redirect:/ ";
+            return "addEmployee";
+            
+        }
+        else{
+
+            employeeService.save(newEmployee);
+            dataModel.addAttribute("employeeAdded", "true");
+            return "addEmployee";
+        }
 
     }
 

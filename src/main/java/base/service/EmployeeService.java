@@ -9,5 +9,6 @@ public interface EmployeeService {
     void save(Employee employee);
     List<Employee> getAll();
     Employee getByDetails(String firstName, String lastName, String identityProof, String email);
+    Employee duplicateEmployee(Employee employee);
 
 }

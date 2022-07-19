@@ -116,7 +116,7 @@
             </div>
 
             <div class="form-row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-12" style="text-align: center;">
                     <p>OR</p>
                 </div>
             </div>
