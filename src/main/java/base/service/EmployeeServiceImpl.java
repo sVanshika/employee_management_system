@@ -2,6 +2,8 @@ package base.service;
 
 import base.dao.EmployeeDao;
 import base.model.Employee;
+import base.model.Identity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,9 +18,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     @Transactional(propagation =  Propagation.REQUIRED)
-    public Employee getById(String id) {
+    public Employee getById(Identity idType, String id) {
         System.out.println("======= employee service impl - get by id ========");
-        return employeeDao.getById(id);
+        return employeeDao.getById(idType, id);
     }
 
     @Override
@@ -49,5 +51,27 @@ public class EmployeeServiceImpl implements EmployeeService{
         // TODO Auto-generated method stub
         System.out.println("========== employee service impl - duplicate employe ========");
         return employeeDao.duplicateEmployee(employee);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void update(Employee employee){
+        System.out.println("=========== employee service impl - update employee ==========");
+        employeeDao.update(employee);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Employee getByEmpId(int id) {
+        // TODO Auto-generated method stub
+        System.out.println("========= employee service get by emp id ===========");
+        return employeeDao.getByEmpId(id);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void delete(Employee employee){
+        System.out.println("=========== employee service delete =========");
+        employeeDao.delete(employee);
     }
 }

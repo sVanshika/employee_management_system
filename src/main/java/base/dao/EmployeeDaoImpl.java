@@ -1,6 +1,8 @@
 package base.dao;
 
 import base.model.Employee;
+import base.model.Identity;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,25 @@ public class EmployeeDaoImpl implements EmployeeDao{
     private SessionFactory sessionFactory;
 
     @Override
-    public Employee getById(String id) {
+    public Employee getById(Identity idType, String id) {
         System.out.println("======= employee dao impl - get by id ========");
-        Employee employee = sessionFactory.getCurrentSession().load(Employee.class, id);
-        
+
+        String hql = "FROM Employee E WHERE E.identity=:idType AND E.identityProof=:id";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+
+        query.setParameter("idType", idType);
+        query.setParameter("id", id);
+
+        List<Employee> employees = query.list();
+        if(employees.size() == 0)
+            return null;
+            
+        Employee employee = employees.get(0);
+
         employee.getEmployeeId();
         employee.getTempAddress();
+        employee.getPermAddress();
+        // employee.getFamilyMembers();
 
         return employee;
     }
@@ -86,5 +101,28 @@ public class EmployeeDaoImpl implements EmployeeDao{
         Employee emp = duplicateEmployees.get(0);
         
         return emp;
+    }
+
+    @Override
+    public void update(Employee employee) {
+        // TODO Auto-generated method stub
+        sessionFactory.getCurrentSession().update(employee);
+        
+    }
+
+    @Override
+    public Employee getByEmpId(int id) {
+        // TODO Auto-generated method stub
+        System.out.println("=========== dao get by emp id =========");
+        Employee employee = sessionFactory.getCurrentSession().load(Employee.class, id);
+        employee.getAge();
+        return employee;
+    }
+
+    @Override
+    public void delete(Employee employee) {
+        // TODO Auto-generated method stub
+        sessionFactory.getCurrentSession().delete(employee);
+        
     }
 }

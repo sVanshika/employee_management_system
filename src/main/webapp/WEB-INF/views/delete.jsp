@@ -20,6 +20,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
+    <!-- sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <style>
 
         .form-control[readonly]{
@@ -37,7 +40,11 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .btn-dark:hover{
+            color: #fff;
+        }
     </style>
+
 
 </head>
 <body>
@@ -52,7 +59,9 @@
         <h1 class="title">Employee Details</h1>
     </div>
 
-    <form>
+    
+
+    <form action="deleteEmployee?employeeid=${employee.employeeId}" method="post">
 
         <div class="row">
             <div class="form-group col-md-6">
@@ -110,7 +119,7 @@
                     
                 </div>
           
-                <div id="collapseOne" class="collapse show" aria-labelledby="temporaryAddress" data-parent="#accordionAddress">
+                <div id="collapseOne" class="collapse" aria-labelledby="temporaryAddress" data-parent="#accordionAddress">
                     <div class="card-body">
                         
                         <div class="row">
@@ -259,16 +268,28 @@
         </div>
         
         <div class="d-flex justify-content-center mt-3">
-            <a class="btn btn-danger" href="./" style="padding: 1rem 3rem;  margin: 1rem;">Home Page</a>
-            <a class="btn btn-primary" href="./searchEmployee" style="padding: 1rem 3rem;  margin: 1rem;">Search Employee</a>
+            <input class="btn btn-danger"
+                style="padding: 1rem 3rem;  margin: 1rem;" 
+                onclick="return confirm('Are you sure?');"
+                type="submit"
+                value="Delete"
+            />
+                <!-- Delete -->
+            <!-- </button> -->
+            <a class="btn btn-dark" href="./" style="padding: 1rem 3rem;  margin: 1rem;">Cancel</a>
+            
         </div>
+
+        
         
 
     </form>
 
+   
     
 </div>
 
-    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 </body>
-</html>
+</html> 

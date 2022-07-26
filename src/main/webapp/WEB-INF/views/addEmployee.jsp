@@ -45,7 +45,15 @@
             .accordion-header{
                 margin: 0;
                 background: #eee;
-            }
+            }.heading{
+            color: #337ab7;
+            text-decoration: none;
+        }
+        .heading:hover{
+            color: #337ab7;
+            text-decoration: none;
+            cursor: pointer;
+        }
         </style>
 
         <script>
@@ -57,7 +65,7 @@
     </head>
     <body>
         <div style="background-color:#f5f5f5; padding:0.5rem 2rem; margin-bottom:3rem">
-            <h3>NSEL EMPLOYEES</h3>
+            <h3><a href="./" class="heading">NSEL EMPLOYEES</a> </h3>
         </div>
 
         <div class="alert alert-success alert-dismissible hide" id="alert-success" role="alert">
@@ -159,7 +167,7 @@
                     <label>Religion</label>
                     <select id="religion" name="religion" class="form-control">
                         <option selected disabled value="">Select</option>
-                        <option value="PAN">Hinduism</option>
+                        <option value="Hinduism">Hinduism</option>
                         <option value="Christianity">Christianity</option>
                         <option value="Islam">Islam</option>
                         <option value="Sikhism">Sikhism</option>
@@ -369,19 +377,56 @@
                 document.getElementById('firstName').value = "${duplicateEmployee.firstName}";
                 document.getElementById('lastName').value = "${duplicateEmployee.lastName}";
                 document.getElementById('age').value = "${duplicateEmployee.age}";
+
                 // sex
+                var sex = "${duplicateEmployee.sex}";
+                if(sex == 'Male')
+                    document.getElementById('sex').selectedIndex = 1;
+                else if(sex == 'Female')
+                    document.getElementById('sex').selectedIndex = 2;
+                else
+                    document.getElementById('sex').selectedIndex = 3;
+
                 // id
-                document.getElementById('identityProof').value = "${duplicateEmployee.identityProof}";
+                var identity = "${duplicateEmployee.identity}";
+                if(identity == 'PAN')
+                    document.getElementById('identity').selectedIndex = 1;
+                else if(identity == 'AADHAR')
+                    document.getElementById('identity').selectedIndex = 2;
+                else
+                    document.getElementById('identity').selectedIndex = 3;
+
+                // document.getElementById('identityProof').value = "${duplicateEmployee.identityProof}";
                 document.getElementById('mobileNumber').value = "${duplicateEmployee.mobileNumber}";
+                
                 // religion
+                var religion = "${duplicateEmployee.religion}";
+                console.log(religion);
+                if(religion == 'Hinduism')
+                    document.getElementById('religion').selectedIndex = 1;
+                else if(religion == 'Christianity')
+                    document.getElementById('religion').selectedIndex = 2;
+                else if(religion == 'Islam')
+                    document.getElementById('religion').selectedIndex = 3;
+                else if(religion == 'Sikhism')
+                    document.getElementById('religion').selectedIndex = 4;
+                else if(religion == 'Buddhism')
+                    document.getElementById('religion').selectedIndex = 5; 
+                else if(religion == 'Jainism')
+                    document.getElementById('religion').selectedIndex = 6;
+                else
+                    document.getElementById('religion').selectedIndex = 7;
+                
 
                 document.getElementById('emailId').value = "${duplicateEmployee.emailId}";
+
                 document.getElementById('plotNo').value = "${duplicateEmployee.tempAddress.plotNo}";
                 document.getElementById('locality').value = "${duplicateEmployee.tempAddress.locality}";
                 document.getElementById('city').value = "${duplicateEmployee.tempAddress.city}";
                 document.getElementById('state').value = "${duplicateEmployee.tempAddress.state}";
                 document.getElementById('country').value = "${duplicateEmployee.tempAddress.country}";
-                
+                document.getElementById('pincode').value = "${duplicateEmployee.tempAddress.pincode}";
+
                 document.getElementById('pincode_perm').value = "${duplicateEmployee.permAddress.pincode}";
                 document.getElementById('plotNo_perm').value = "${duplicateEmployee.permAddress.plotNo}";
                 document.getElementById('locality_perm').value = "${duplicateEmployee.permAddress.locality}";
@@ -390,18 +435,12 @@
                 document.getElementById('country_perm').value = "${duplicateEmployee.permAddress.country}";
                 document.getElementById('pincode_perm').value = "${duplicateEmployee.permAddress.pincode}";
 
-                <c:forEach items="${employee.familyMembers}" var="member">
-                    addFamilyMember();
+                // <c:forEach items="${duplicateEmployee.familyMembers}" var="member">
+                //     addFamilyMember();
+                //     console.log("${member.firstName}");
 
 
-
-                </c:forEach>
-
-
-
-
-                
-
+                // </c:forEach>
 
             }
 
@@ -453,24 +492,26 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
                                         <label>First Name</label>
-                                        <input id="family-member-first-name-`+family_member_counter`" name="familyMembers[` + family_member_counter + `].firstName" class="form-control" >
+                                        <input id="family-member-first-name-`+family_member_counter+`" name="familyMembers[` + family_member_counter + `].firstName" class="form-control" >
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Last Name</label>
-                                        <input id="family-member-last-name" name="familyMembers[` + family_member_counter + `].lastName" class="form-control" >
+                                        <input id="family-member-last-name-`+family_member_counter+`" name="familyMembers[` + family_member_counter + `].lastName" class="form-control" >
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Age</label>
-                                        <input id="family-member-age" name="familyMembers[` + family_member_counter + `].age" class="form-control" >
+                                        <input id="family-member-age-`+family_member_counter+`" name="familyMembers[` + family_member_counter + `].age" class="form-control" >
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Relation</label>
-                                        <select id="family-member-relation" name="familyMembers[` + family_member_counter + `].relation" class="form-control">
+                                        <select id="family-member-relation-`+family_member_counter+`" name="familyMembers[` + family_member_counter + `].relation" class="form-control">
                                             <option selected disabled value="">Select</option>
                                             <option value="Father">Father</option>
                                             <option value="Mother">Mother</option>
                                             <option value="Brother">Brother</option>
                                             <option value="Sister">Sister</option>
+                                            <option value="Husband">Husband</option>
+                                            <option value="Wife">Wife</option>
                                             <option value="Grand Father">Grand Father</option>
                                             <option value="Grand Mother">Grand Mother</option>
                                             <option value="Uncle">Uncle</option>

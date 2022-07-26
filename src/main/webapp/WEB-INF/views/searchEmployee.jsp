@@ -28,6 +28,15 @@
             .hide{
                 display: none;
             }
+            .heading{
+            color: #337ab7;
+            text-decoration: none;
+        }
+        .heading:hover{
+            color: #337ab7;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
     <script>
         var employeeExist = "${employeeExist}";
@@ -42,9 +51,9 @@
 
                 var alertBox = document.getElementById('alert-danger');
                 if(alertBox != null){
-                    alertBox.classList.remove('hide');        
+                    alertBox.classList.remove('hide'); 
+                    setTimeout(() => {window.location = "./searchEmployee"}, 2000);       
                 }
-                //window.location = './searchEmployee';
             }
 
         }
@@ -66,7 +75,7 @@
 <body>
 
     <div style="background-color:#f5f5f5; padding:0.5rem 2rem; margin-bottom:3rem">
-        <h3>NSEL EMPLOYEES</h3>
+        <h3><a href="./" class="heading">NSEL EMPLOYEES</a> </h3>
     </div>
 
     <div class="alert alert-danger hide alert-dismissible" id="alert-danger" role="alert">
@@ -84,7 +93,7 @@
 
         <form class="needs-validation" novalidate action="showEmployee" method="post" modelAttribute="employeeToSearch">
 
-            <div class="form-row">
+            <div class="row">
                 <div class="form-group col-md-6">
                     <label>First Name</label>
                     <input id="firstName" name="firstName" class="form-control" required >
@@ -97,10 +106,10 @@
                 </div>
             </div>
 
-            <div class="form-row">
+            <div class="row">
                 <div class="form-group col-md-6">
                     <label>Identity Proof Choice</label>
-                    <select id="identity" name="identity" class="form-control" onblur="setIdentityProofLabel()" required>
+                    <select id="identity" name="identity" class="form-control" onblur="setIdentityProofLabel()">
                             <option selected disabled value="">Select</option>
                             <option value="PAN">PAN</option>
                             <option value="AADHAR">AADHAR</option>
@@ -110,18 +119,18 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label id="identityProofLabel">Choose Identity</label>
-                    <input id="identityProof" name="identityProof" class="form-control" required >
-                    <div class="invalid-feedback">Please enter Identity Proof</div>
+                    <input id="identityProof" name="identityProof" class="form-control" onblur="verifyLength()" >
+                    <div class="invalid-feedback">Please enter valid Identity Proof. <br><small>Length should be greater than 9 characters.</small> </div>
                 </div>
             </div>
 
-            <div class="form-row">
+            <div class="row">
                 <div class="form-group col-md-12" style="text-align: center;">
                     <p>OR</p>
                 </div>
             </div>
 
-            <div class="form-row">
+            <div class="row">
                 <div class="form-group col-md-12">
                     <label id="emailId">Email ID</label>
                     <input id="emailId" name="emailId" class="form-control" required >
@@ -129,7 +138,7 @@
                 </div>
             </div>
 
-            <div class="form-row">
+            <div class="row">
                 <div class="form-group  col-md-12 d-flex justify-content-center">
                     <button class="btn btn-success" type="submit" style="padding: 1rem 3rem;  margin: 1rem;">Submit</button>
                     <a class="btn btn-danger" href="./" style="padding: 1rem 3rem;  margin: 1rem;">Cancel</a>
@@ -139,6 +148,26 @@
         </form>     
 
     </div>
+
+    <script>
+        function verifyLength(){
+                var id = document.getElementById('identityProof');
+                var pincode = document.getElementById('pincode');
+                var pincode_perm = document.getElementById('pincode_perm');
+                
+                if(id.value.length < 9){
+                    console.log("id length is < 9");
+                    id.value = "";
+                    id.classList.add("is-invalid");
+                }
+                else{
+                    if(id.classList.contains("is-invalid")){
+                        id.classList.remove("is-invalid");
+                    }
+                    id.classList.add("is-valid");
+                }
+            }
+    </script>
     
 </body>
 </html>

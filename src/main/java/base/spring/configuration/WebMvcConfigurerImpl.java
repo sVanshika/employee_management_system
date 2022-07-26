@@ -14,10 +14,8 @@ public class WebMvcConfigurerImpl implements WebMvcConfigurer {
     @Bean
     public ViewResolver getViewResolver(){
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/views/");
+        viewResolver.setPrefix("main/webapp/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
-        
-    
 
         return viewResolver;
     }

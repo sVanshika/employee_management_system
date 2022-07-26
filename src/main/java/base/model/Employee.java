@@ -53,7 +53,7 @@ public class Employee {
     private long mobileNumber;
 
     // @OneToMany(mappedBy = "employee")
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "FamilyMember", 
         joinColumns = @JoinColumn(name = "FamilyMember"))
     private List<FamilyMember> familyMembers = new ArrayList<>();

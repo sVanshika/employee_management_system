@@ -1,6 +1,7 @@
 package base.spring.controller;
 
 import base.model.Employee;
+import base.model.Identity;
 import base.service.EmployeeService;
 
 import java.util.List;
@@ -14,14 +15,26 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class MainController {
     @Autowired
     private EmployeeService employeeService;
 
+    @GetMapping("/")
+    public String home(){
+        return "home";
+    }
+
+    // -------------------------- add employee -------------------------
     @GetMapping("/addEmployee")
     public ModelAndView addEmployee(){
         System.out.println("======== add employee ========");
@@ -57,7 +70,7 @@ public class MainController {
 
             // boolean duplicateEmployeeExists = true;
             dataModel.addAttribute("duplicateEmployeeExists", "true");
-            dataModel.addAttribute("duplicateEmployee", duplicateEmployee);
+            dataModel.addAttribute("duplicateEmployee", newEmployee);
         
             return "addEmployee";
             
@@ -71,6 +84,7 @@ public class MainController {
 
     }
 
+    // -------------------------- search employee -------------------------
     @GetMapping("/searchEmployee")
     public ModelAndView searchEmployee(Model dataModel){
         System.out.println("========== search employee ==============");
@@ -115,5 +129,105 @@ public class MainController {
         }
     }
 
+    // -------------------------- update employee -------------------------
+    
+    @GetMapping("/find")
+    public String find(){
+        return"find";
+    }
+
+    @PostMapping("/findEmployee")
+    public String findEmployeeById(@RequestParam("action") String action, String identity, String identityProof, Model dataModel){
+        System.out.println("====== find employee controller =====");
+        System.out.println("type = " + identity + "\tid = " + identityProof);
+
+        if(identity == "" || identityProof == ""){
+            dataModel.addAttribute("employeeExists", "false");
+            return "find";
+        }
+        else{
+
+            Employee employee = employeeService.getById(Identity.valueOf(identity), identityProof);
+
+            System.out.println("employee -> " + employee);
+
+            // employee does not exist
+            if(employee == null){
+                dataModel.addAttribute("employeeExists", "false");
+                return "find";
+            }
+            // employee exist
+            else{
+                String path = "";
+                System.out.println("--> action = " + action);
+                if(action.equals("update")){
+                    System.out.println("======== update call =========");
+                    path = "redirect:./updateEmployee?employeeid=" + employee.getEmployeeId();
+                }
+                else if(action.equals("delete")){
+                    System.out.println("========= delete call ===============");
+                    path = "redirect:./delete?employeeid=" + employee.getEmployeeId();
+                }
+                return path;
+            }
+        }
+
+    }
+
+    @GetMapping("/updateEmployee")
+    public ModelAndView updateEmployee(@RequestParam("employeeid") int employeeid){
+        System.out.println("========== update employee get call ==========");
+
+        System.out.println(employeeid);
+
+        String modelName = "employeeToUpdate";
+        String viewName = "updateEmployee";
+        Employee employeeToUpdate = employeeService.getByEmpId(employeeid);
+
+        System.out.println("----> " + employeeToUpdate);
+
+        return new ModelAndView(viewName, modelName, employeeToUpdate);
+    }
+
+    @PostMapping("/saveUpdatedEmployee")
+    public String saveUpdatedEmployee(@ModelAttribute("employeeToUpdate") Employee employeeToUpdate, Model dataModel){
+        System.out.println("============ save updated employee ================");
+        System.out.println("!! " + employeeToUpdate);
+
+        employeeService.update(employeeToUpdate);
+
+        dataModel.addAttribute("action", "update");
+        dataModel.addAttribute("employeeid", employeeToUpdate.getEmployeeId());
+      
+        
+        return "redirect:./";
+    }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam("employeeid") int id, Model dataModel){
+
+        Employee employee = employeeService.getByEmpId(id);
+        dataModel.addAttribute("employee", employee);
+        
+        return "delete";
+
+    }
+
+    @PostMapping("/deleteEmployee")
+    public String deleteEmployee(@RequestParam("employeeid") int id, Model dataModel){
+        System.out.println("============ delete empl ===========");
+        System.out.println(id);
+        
+        Employee employee = employeeService.getByEmpId(id);
+
+        dataModel.addAttribute("action", "delete");
+        dataModel.addAttribute("employeeid", employee.getEmployeeId());
+    
+        employeeService.delete(employee);
+
+        return "redirect:./";
+    }
+
+    
 
 }
