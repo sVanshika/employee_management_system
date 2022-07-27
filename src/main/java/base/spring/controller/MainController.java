@@ -100,7 +100,7 @@ public class MainController {
 
     
 
-    @PostMapping("/showEmployee")
+    @PostMapping("/searchEmployee")
     public String showEmployee(@ModelAttribute("employeeToSearch") Employee employeeToSearch, Model dataModel){
         System.out.println("=============show employee===============");
         String fName = employeeToSearch.getFirstName();

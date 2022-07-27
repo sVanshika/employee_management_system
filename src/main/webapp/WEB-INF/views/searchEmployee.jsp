@@ -91,7 +91,7 @@
         </div>
 
 
-        <form class="needs-validation" novalidate action="showEmployee" method="post" modelAttribute="employeeToSearch">
+        <form class="needs-validation" novalidate action="searchEmployee" method="post" modelAttribute="employeeToSearch">
 
             <div class="row">
                 <div class="form-group col-md-6">

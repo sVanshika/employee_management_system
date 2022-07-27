@@ -1,7 +1,7 @@
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page isELIgnored="false"%>
+<%@taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page isELIgnored="false"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +18,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <!-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/style.css"> -->
+
 
     <style>
 
@@ -39,6 +42,16 @@
         .add-button, .remove-button{
             border-radius: 50%;
             padding: 0.5rem 1rem;
+        }
+        .accordion{
+            margin: 1rem 0;
+        }
+        #hidden_member_container_card_body{
+            position: absolute;
+            visibility: hidden;
+        }
+        #member_container_card_body{
+            position: relative;
         }
     </style>
 
@@ -248,43 +261,21 @@
 
                         <div class="card-body" id="family_main_container" > 
                                               
-                        
+                        <div id="hidden_member_container_card_body">
 
                         <c:forEach items="${employeeToUpdate.familyMembers}" var="member">
                                 
                                 <div class="container family-box" style="width: 100%;padding: 1rem;">
                                     <div class="row">
-                                        <div class="form-group col-md-3">
-                                            <label>First Name</label>
-                                            <input id="" value="${member.firstName}" class="form-control" />
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label>Last Name</label>
-                                            <input value="${member.lastName}" class="form-control" />
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label>Age</label>
-                                            <input value="${member.age}" class="form-control" />
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label>Relation</label>
-                                            <select value="${member.relation}" class="form-control">
-                                                <option value="Father">Father</option>
-                                                <option value="Mother">Mother</option>
-                                                <option value="Brother">Brother</option>
-                                                <option value="Sister">Sister</option>
-                                                <option value="Husband">Husband</option>
-                                                <option value="Wife">Wife</option>
-                                                <option value="Grand Father">Grand Father</option>
-                                                <option value="Grand Mother">Grand Mother</option>
-                                                <option value="Uncle">Uncle</option>
-                                                <option value="Aunt">Aunt</option>
-                                            </select>
-                                        </div>
+                                        <input id="firstname" value="${member.firstName}" class="col-md-3 form-group" />
+                                        <input id="lastname" value="${member.lastName}" class="col-md-3 form-group" />
+                                        <input id="age" value="${member.age}" class="col-md-3 form-group" />
+                                        <input id="relation" value="${member.relation}" class="col-md-3 form-group relation_hidden_input">
                                     </div>
                                 </div>
                         </c:forEach>
 
+                    </div>
                         
                         <div id="member_container_card_body"></div>
  
@@ -315,40 +306,75 @@
 
 <script>
     var count;
-    var index;
+    var index=-1;
 
     window.onload = (() => {
-        count = document.getElementById('family_main_container').children.length;
-        if(count == 0)
-            count = -1;
-        
-        index = count - 1;
+        count = (document.getElementById('hidden_member_container_card_body').children.length);
         console.log("count=" + count + " index=" + index);
+
+        createFamily();
     })
 
+    function createFamily(){
+        // adding new boxes
+        for (let i = 0; i < count; i++) {
+            addFamilyMember();            
+        }
+
+        // extracting values of already present members and putting it in new boxes
+        let family = document.getElementById('hidden_member_container_card_body');
+        let relation_inputs = document.getElementsByClassName('relation_hidden_input');
+
+        for(let boxIndex = 0; boxIndex < count; boxIndex++){
+            let container = family.children[boxIndex];
+            let row = container.children[0].children;        
+
+            let hidden_firstname = row['firstname'].value;
+            let hidden_lastname = row['lastname'].value;
+            let hidden_age = row['age'].value;
+            let hidden_relation = row['relation'].value;
+
+            console.log(hidden_firstname + " - " + hidden_lastname + " - " + hidden_age + " - " + hidden_relation);
+            
+            let newFirstNameId = "familyMembers[" + boxIndex + "].firstName";
+            let newLastNameId = "familyMembers[" + boxIndex + "].lastName";
+            let newAgeId = "familyMembers[" + boxIndex + "].age";
+            let newRelationId = "familyMembers[" + boxIndex + "].relation";
+
+            document.getElementById(newFirstNameId).value = hidden_firstname;
+            document.getElementById(newLastNameId).value = hidden_lastname;
+            document.getElementById(newAgeId).value = hidden_age;
+            document.getElementById(newRelationId).value = hidden_relation;
+        }
+    }
+
     function addFamilyMember(){
+        console.log("add family memeber");
+
+        index = index+1;
+
         var firstname = "familyMembers[" + index + "].firstName";
         var lastname = "familyMembers[" + index + "].lastName";
         var age = "familyMembers[" + index + "].age";
-        var religion = "familyMembers[" + index + "].religion";
+        var relation = "familyMembers[" + index + "].relation";
 
-        var family = `<div class="container family-box" style="width: 100%;padding: 1rem;">
-                                    <div class="row">
-                                        <div class="form-group col-md-3">
-                                            <label>First Name</label>
-                                            <input id="`+firstname+`" name="`+firstname+`" class="form-control" />
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label>Last Name</label>
-                                            <input id="`+lastname+`" name="`+lastname+`" class="form-control" />
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label>Age</label>
-                                            <input id="`+age+`" name="`+age+`" class="form-control" />
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label>Relation</label>
-                                            <select id="`+religion+`" name="`+religion+`" class="form-control">
+        var family = `<div class="container new-family-box" style="width: 100%;padding: 1rem;">
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label>First Name</label>
+                                <input id="`+firstname+`" name="`+firstname+`" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Last Name</label>
+                                <input id="`+lastname+`" name="`+lastname+`" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Age</label>
+                                <input id="`+age+`" name="`+age+`" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Relation</label>
+                                    <select id="`+relation+`" name="`+relation+`" class="form-control">
                                                 <option value="Father">Father</option>
                                                 <option value="Mother">Mother</option>
                                                 <option value="Brother">Brother</option>
@@ -372,9 +398,9 @@
     
 
     function removeFamilyMember(){
-        family_member_counter -= 1;
+        count -= 1;
         
-        var family_boxes = document.getElementsByClassName('family-box');
+        var family_boxes = document.getElementsByClassName('new-family-box');
         var num = family_boxes.length;
             
         if(num > 0){
