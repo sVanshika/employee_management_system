@@ -80,15 +80,18 @@
                 <img 
                     alt="image"  
                     src="https://img.freepik.com/premium-vector/happy-business-colleagues-team-portrait_179970-1271.jpg?w=2000"
-                    style="width: 100%; height:100%;" 
+                    style="width: 100%;" 
                 >
             </div>
             <div class="col-md-6">
-                <div class="d-flex flex-column justify-content-center" style="padding-top: 12.5%;">
+                <div class="d-flex flex-column justify-content-center" style="padding-top: 0;">
                     <a class="btn btn-primary c1" href="./addEmployee" role="button">Add Employee</a>
                     <a class="btn btn-warning c2" href="./searchEmployee" role="button">Search Employee</a>
+
                     <a class="btn btn-warning c1" href="./find?action=update" role="button">Update Employee</a>
                     <a class="btn btn-warning c2" href="./find?action=delete" role="button">Delete Employee</a>
+                    <a class="btn btn-primary c1" href="./find?action=applyloan" role="button">Apply Loan</a>
+                    <a class="btn btn-primary c1" href="./find?action=loanDetails" role="button">Loan Details</a>
                     
                 </div>
             </div>

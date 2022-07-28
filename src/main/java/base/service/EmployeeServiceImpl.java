@@ -3,6 +3,7 @@ package base.service;
 import base.dao.EmployeeDao;
 import base.model.Employee;
 import base.model.Identity;
+import base.model.LoanAgreement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -73,5 +74,13 @@ public class EmployeeServiceImpl implements EmployeeService{
     public void delete(Employee employee){
         System.out.println("=========== employee service delete =========");
         employeeDao.delete(employee);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void save(LoanAgreement loan) {
+        // TODO Auto-generated method stub
+        System.out.println("========== emp service save loan =============");
+        employeeDao.save(loan);
     }
 }

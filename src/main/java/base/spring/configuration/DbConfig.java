@@ -3,6 +3,7 @@ package base.spring.configuration;
 import base.model.Address;
 import base.model.Employee;
 import base.model.FamilyMember;
+import base.model.LoanAgreement;
 
 import org.hibernate.SessionFactory;
 // import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,8 @@ public class DbConfig {
         bean.setAnnotatedClasses(
             Employee.class,
             Address.class,
-            FamilyMember.class
+            FamilyMember.class,
+            LoanAgreement.class
         );
 
         try {

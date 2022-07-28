@@ -3,6 +3,11 @@ package base.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,14 +59,37 @@ public class Employee {
 
     // @OneToMany(mappedBy = "employee")
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "FamilyMember", 
-        joinColumns = @JoinColumn(name = "FamilyMember"))
+    @CollectionTable(name = "FamilyMember", joinColumns = @JoinColumn(name = "FamilyMember"))
     private List<FamilyMember> familyMembers = new ArrayList<>();
+
+
+    @OneToOne()
+    @JoinColumn(name = "loanid")
+    private LoanAgreement loan;
+    
 
     public Employee() {
     }
 
-    // public Employee(int employeeId, String firstName, String lastName, int age, String sex, String religion, Identity identity, String identityProof, Address tempAddress, Address permAddress, String emailId, long mobileNumber) {
+   public Employee(int employeeId, String firstName, String lastName, int age, String sex, String religion, Identity identity, String identityProof, Address tempAddress, Address permAddress, String emailId, long mobileNumber, List<FamilyMember> familyMembers, LoanAgreement loan) {
+       this.employeeId = employeeId;
+       this.firstName = firstName;
+       this.lastName = lastName;
+       this.age = age;
+       this.sex = sex;
+       this.religion = religion;
+       this.identity = identity;
+       this.identityProof = identityProof;
+       this.tempAddress = tempAddress;
+       this.permAddress = permAddress;
+       this.emailId = emailId;
+       this.mobileNumber = mobileNumber;
+       this.familyMembers = familyMembers;
+       this.loan = loan;
+   }
+
+
+    // public Employee(int employeeId, String firstName, String lastName, int age, String sex, String religion, Identity identity, String identityProof, Address tempAddress, Address permAddress, String emailId, long mobileNumber, List<FamilyMember> familyMembers) {
     //     this.employeeId = employeeId;
     //     this.firstName = firstName;
     //     this.lastName = lastName;
@@ -74,22 +102,11 @@ public class Employee {
     //     this.permAddress = permAddress;
     //     this.emailId = emailId;
     //     this.mobileNumber = mobileNumber;
+    //     this.familyMembers = familyMembers;
     // }
 
-    public Employee(int employeeId, String firstName, String lastName, int age, String sex, String religion, Identity identity, String identityProof, Address tempAddress, Address permAddress, String emailId, long mobileNumber, List<FamilyMember> familyMembers) {
+    public Employee(int employeeId) {
         this.employeeId = employeeId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.sex = sex;
-        this.religion = religion;
-        this.identity = identity;
-        this.identityProof = identityProof;
-        this.tempAddress = tempAddress;
-        this.permAddress = permAddress;
-        this.emailId = emailId;
-        this.mobileNumber = mobileNumber;
-        this.familyMembers = familyMembers;
     }
 
     public List<FamilyMember> getFamilyMembers() {
@@ -204,6 +221,14 @@ public class Employee {
         this.permAddress = address;
     }
 
+   public LoanAgreement getLoan() {
+       return loan;
+   }
+
+   public void setLoan(LoanAgreement loan) {
+       this.loan = loan;
+   }
+
     // @Override
     // public String toString() {
     //     return "Employee{" +
@@ -238,6 +263,7 @@ public class Employee {
                 ", emailId='" + emailId + '\'' +
                 ", mobileNumber=" + mobileNumber +
                 ", familyMembers=" + familyMembers +
+                ", loan=" + loan +
                 '}';
     }
 }

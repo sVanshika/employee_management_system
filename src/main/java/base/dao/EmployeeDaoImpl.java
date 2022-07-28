@@ -2,6 +2,7 @@ package base.dao;
 
 import base.model.Employee;
 import base.model.Identity;
+import base.model.LoanAgreement;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -17,7 +18,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
 
     @Override
     public Employee getById(Identity idType, String id) {
-        System.out.println("======= employee dao impl - get by id ========");
+        System.out.println("======= employee dao impl - get by id and id proof ========");
 
         String hql = "FROM Employee E WHERE E.identity=:idType AND E.identityProof=:id";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
@@ -32,8 +33,10 @@ public class EmployeeDaoImpl implements EmployeeDao{
         Employee employee = employees.get(0);
 
         employee.getEmployeeId();
-        employee.getTempAddress();
-        employee.getPermAddress();
+        // employee.getTempAddress();
+        // employee.getPermAddress();
+        // employee.getLoan();
+
         // employee.getFamilyMembers();
 
         return employee;
@@ -115,7 +118,13 @@ public class EmployeeDaoImpl implements EmployeeDao{
         // TODO Auto-generated method stub
         System.out.println("=========== dao get by emp id =========");
         Employee employee = sessionFactory.getCurrentSession().load(Employee.class, id);
-        employee.getAge();
+        
+        employee.getEmployeeId();
+
+       employee.getAge();
+       employee.getFamilyMembers();
+//        employee.getLoan();
+        
         return employee;
     }
 
@@ -124,5 +133,11 @@ public class EmployeeDaoImpl implements EmployeeDao{
         // TODO Auto-generated method stub
         sessionFactory.getCurrentSession().delete(employee);
         
+    }
+
+    @Override
+    public void save(LoanAgreement loan) {
+        // TODO Auto-generated method stub
+        sessionFactory.getCurrentSession().save(loan);
     }
 }

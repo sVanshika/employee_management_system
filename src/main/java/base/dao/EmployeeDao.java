@@ -2,6 +2,7 @@ package base.dao;
 
 import base.model.Employee;
 import base.model.Identity;
+import base.model.LoanAgreement;
 
 import java.util.List;
 
@@ -14,5 +15,7 @@ public interface EmployeeDao {
     Employee duplicateEmployee(Employee employee);
     void update(Employee employee);
     void delete(Employee employee);
+
+    void save(LoanAgreement loan);
     
 }

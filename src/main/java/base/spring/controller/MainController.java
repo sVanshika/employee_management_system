@@ -2,6 +2,7 @@ package base.spring.controller;
 
 import base.model.Employee;
 import base.model.Identity;
+import base.model.LoanAgreement;
 import base.service.EmployeeService;
 
 import java.util.List;
@@ -98,8 +99,6 @@ public class MainController {
         return new ModelAndView(view, model, employee);
     }
 
-    
-
     @PostMapping("/searchEmployee")
     public String showEmployee(@ModelAttribute("employeeToSearch") Employee employeeToSearch, Model dataModel){
         System.out.println("=============show employee===============");
@@ -129,7 +128,7 @@ public class MainController {
         }
     }
 
-    // -------------------------- update employee -------------------------
+    // -------------------------- find employee -------------------------
     
     @GetMapping("/find")
     public String find(){
@@ -161,12 +160,20 @@ public class MainController {
                 String path = "";
                 System.out.println("--> action = " + action);
                 if(action.equals("update")){
-                    System.out.println("======== update call =========");
+                    System.out.println("======== find -> update call =========");
                     path = "redirect:./updateEmployee?employeeid=" + employee.getEmployeeId();
                 }
                 else if(action.equals("delete")){
-                    System.out.println("========= delete call ===============");
+                    System.out.println("========= find -> delete call ===============");
                     path = "redirect:./delete?employeeid=" + employee.getEmployeeId();
+                }
+                else if(action.equals("applyloan")){
+                    System.out.println("========= find -> apply loan call =========");
+                    path = "redirect:./applyLoan?employeeid=" + employee.getEmployeeId();
+                }
+                else if(action.equals("loanDetails")){
+                    System.out.println("======= find -> loan details call ========");
+                    path = "redirect:./loanDetails?employeeid=" + employee.getEmployeeId();
                 }
                 return path;
             }
@@ -174,6 +181,8 @@ public class MainController {
 
     }
 
+    // ------------------- update employee --------------------
+    
     @GetMapping("/updateEmployee")
     public ModelAndView updateEmployee(@RequestParam("employeeid") int employeeid){
         System.out.println("========== update employee get call ==========");
@@ -203,6 +212,8 @@ public class MainController {
         return "redirect:./";
     }
 
+    // ----------------- delete employee ----------------
+
     @GetMapping("/delete")
     public String delete(@RequestParam("employeeid") int id, Model dataModel){
 
@@ -229,5 +240,49 @@ public class MainController {
     }
 
     
+    // ---------------- apply for loan ----------------
+    @GetMapping("/applyLoan")
+    public ModelAndView applyLoan(@RequestParam("employeeid") int id){
+        System.out.println("============ apply loan =============");
+        System.out.println("id = " + id);
+
+        String model = "loan";
+        String view = "applyLoan";
+        LoanAgreement loan = new LoanAgreement();
+
+        return new ModelAndView(view, model, loan);
+    }  
+
+    @PostMapping("/saveApplyLoan")
+    public String applyLoanPost(@RequestParam("employeeid") int id,  @ModelAttribute("loan") LoanAgreement loan){
+        System.out.println("=========== apply loan post ==========");
+        System.out.println("id = " + id);
+        System.out.println(loan);
+
+        // saving loan
+        employeeService.save(loan);
+
+        Employee employee = employeeService.getByEmpId(id);
+        employee.setLoan(loan);
+        
+        employeeService.update(employee);
+
+        return "redirect:./";
+        
+    }
+
+    @GetMapping("/loanDetails")
+    public String loanDetails(@RequestParam("employeeid") int id, Model dataModel){
+        System.out.println("============ loan details =================");
+        System.out.println("id = " + id);
+
+        Employee employee = employeeService.getByEmpId(id);
+        LoanAgreement loan = employee.getLoan();
+
+        dataModel.addAttribute("loan", loan);
+        dataModel.addAttribute("employee", employee);
+
+        return "loanDetails";
+    }
 
 }
