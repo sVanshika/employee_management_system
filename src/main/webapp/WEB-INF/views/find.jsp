@@ -86,8 +86,22 @@
             var employeeExists = "${employeeExists}";
             console.log("employee exists = ${employeeExists}")
 
+            var params = new URLSearchParams(window.location.search);
+            var loanExists = "";
+            if(params.has("loanExists"))
+                loanExists = params.get("loanExists");
+            console.log("loan exists = " + loanExists);
+
             if(employeeExists == "false"){
                 var alertBox = document.getElementById("alert-danger");
+                console.log("alert box - " + alertBox);
+                alertBox.classList.remove("hide");
+                setTimeout(() => {alertBox.classList.add('hide')}, 2000);
+            }
+
+            if(loanExists == "false"){
+                var alertBox = document.getElementById("alert-danger");
+                document.getElementById("alert-danger-p").innerHTML = "Employee does not have any loans!";
                 console.log("alert box - " + alertBox);
                 alertBox.classList.remove("hide");
                 setTimeout(() => {alertBox.classList.add('hide')}, 2000);

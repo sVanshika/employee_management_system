@@ -88,7 +88,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick=""></button>
     </div>
 
-    <div class="container"  style="width: 75%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2); border-radius: 20px;">
+    <div class="container"  style="width: 75%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2); border-radius: 20px; margin-bottom: 4rem;">
      
     
     <!-- title -->
@@ -105,7 +105,7 @@
                 <label for="monthlyIncome">Monthly Income</label>
                 <div class="input-box">
                     <span class="input-comp prefix">Rs.</span>
-                    <input id="monthlyIncome" name="monthlyIncome" class="form-control input-comp" type="number" required="true" onchange="setValues()">
+                    <input id="monthlyIncome" name="monthlyIncome" class="form-control input-comp" type="number" step=".01" required="true" onchange="setValues()">
                 </div>
                 
             </div>
@@ -113,7 +113,7 @@
                 <label for="totalMonthlyExpense">Total Monthly Expense</label>
                 <div class="input-box">
                     <span class="input-comp prefix">Rs.</span>
-                    <input id="totalMonthlyExpense" name="totalMonthlyExpense" class="form-control" type="number" required="true" onchange="setValues()">
+                    <input id="totalMonthlyExpense" name="totalMonthlyExpense" class="form-control" type="number" required="true" step=".01" onchange="setValues()">
                 </div>
             </div>
         </div>
@@ -125,17 +125,17 @@
                 <label for="loanAmountAsked">Loan Amount</label>
                 <div class="input-box">
                     <span class="input-comp prefix">Rs.</span>
-                    <input id="loanAmountAsked" name="loanAmountAsked" class="form-control" type="number" required="true" onchange="setValues()">
+                    <input id="loanAmountAsked" name="loanAmountAsked" class="form-control" type="number" required="true" step=".01" onchange="setValues()">
                 </div>
                 
             </div>
             <div class="form-group col-md-3">
                 <label for="rate">ROI (p.a.)</label>
-                <input id="rate" name="rate" class="form-control" type="number" required="true" onchange="setValues()">
+                <input id="rate" name="rate" class="form-control" type="number" required="true" onchange="setValues()" step="0.01">
             </div>
             <div class="form-group col-md-3">
                 <label for="tenure">Tenure (in years)</label>
-                <input id="tenure" name="tenure" class="form-control" type="number" required="true" onchange="setValues()" onblur="checkTenure()">
+                <input id="tenure" name="tenure" class="form-control" type="number" required="true" step=".01" onchange="setValues()" onblur="checkTenure()">
                 <div id="tenure_invalid_feedback" class="hide" style="color: red;">Max tenure is 50 years.</div>
             </div>
             <div class="form-group col-md-3">

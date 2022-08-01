@@ -123,7 +123,20 @@ public class EmployeeDaoImpl implements EmployeeDao{
 
        employee.getAge();
        employee.getFamilyMembers();
-//        employee.getLoan();
+
+       try {
+            employee.getLoan().getRepaymentSchedule().size();
+       } catch (NullPointerException e) {
+        //TODO: handle exception
+            System.out.println("== emp dao impl - loan repay sch = null ==");
+            try {
+                employee.getLoan().getDbr();
+            } catch (NullPointerException er) {
+                //TODO: handle exception
+                employee.getLoan();
+            }
+       }
+       
         
         return employee;
     }

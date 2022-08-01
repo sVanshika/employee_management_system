@@ -259,12 +259,17 @@ public class MainController {
         System.out.println("id = " + id);
         System.out.println(loan);
 
-        // saving loan
+        loan.calculateEMI();
+        loan.generateRS();
+
+        // saving loan in db
         employeeService.save(loan);
 
         Employee employee = employeeService.getByEmpId(id);
+        // setting this loan with employee
         employee.setLoan(loan);
         
+        // updating employee
         employeeService.update(employee);
 
         return "redirect:./";
@@ -279,10 +284,23 @@ public class MainController {
         Employee employee = employeeService.getByEmpId(id);
         LoanAgreement loan = employee.getLoan();
 
+        if(loan == null){
+            dataModel.addAttribute("loanExists", "false");
+            return "redirect:./find?action=loanDetails";
+        }
+
         dataModel.addAttribute("loan", loan);
         dataModel.addAttribute("employee", employee);
 
-        return "loanDetails";
+        System.out.println(loan);
+        System.out.println(loan.getRepaymentSchedule());
+
+        return "showLoan";
+    }
+
+    @GetMapping("/showloan")
+    public String showloan(){
+        return "showLoan";
     }
 
 }
