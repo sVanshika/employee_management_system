@@ -23,15 +23,7 @@
         .container{
             padding: 2rem;
         }
-        .heading{
-            color: #337ab7;
-            text-decoration: none;
-        }
-        .heading:hover{
-            color: #337ab7;
-            text-decoration: none;
-            cursor: pointer;
-        }
+        
         .subheading{
             margin-top: 1rem;
         }
@@ -71,14 +63,75 @@
         .form-control[readonly]{
             background-color: white;
         }
+        /* navbar and hero section */
+        .heading{
+            color: #337ab7;
+            text-decoration: none;
+            text-align: center;
+        }
+        .heading h1{
+            font-size: 60px;
+        }
+        .navbar-brand{
+            color: #337ab7 !important;
+            font-size: 24px ;
+        }
+        .nav-link{
+            font-size: 20px;
+            color: black;
+            margin-left: 4rem;
+        }
+        .nav-link:hover{
+            text-decoration: none;
+            color: #337ab7;
+        }
+        .dropdown-item{
+            /* padding: 0.5rem; */
+            border-bottom: 1px solid #eee;
+            /* font-size: 1.5rem; */
+        }
     </style>
 
 </head>
 <body>
 
-    <div style="background-color:#f5f5f5; padding:0.5rem 2rem; margin-bottom:3rem">
-        <h3><a href="./" class="heading">NSEL EMPLOYEES</a> </h3>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./">NSEL</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="./">Home</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Employee
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="./addEmployee">Add</a></li>
+                            <li><a class="dropdown-item" href="./searchEmployee">Search</a></li>
+                            <li><a class="dropdown-item" href="./find?action=update">Update</a></li>
+                            <li><a class="dropdown-item" href="./find?action=delete ">Delete</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Loan
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="./find?action=applyloan">Apply Loan</a></li>
+                            <li><a class="dropdown-item" href="./find?action=loanDetails">Loan Details</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div class="container"  style="width: 75%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2); border-radius: 20px;">
      
