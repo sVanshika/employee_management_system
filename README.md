@@ -1,6 +1,6 @@
-#Employee Management System using Spring Web MVC
+EMPLOYEE MANAGEMENT SYSTEM - SPRING MVC PROJECT
 
-##Modules:
+MODULES:
 1. Employee Module
    1. Add employee
    2. Search employee
@@ -12,9 +12,10 @@
    2. Modify loan
    3. Search loan
    
-##Features:
+FEATURES:
 1. Spring security
 2. Transaction management
 3. Hibernate ORM
 4. JPA support
 
+YOUTUBE: https://youtu.be/i0osIGuW5_M
