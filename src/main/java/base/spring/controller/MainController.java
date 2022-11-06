@@ -3,8 +3,10 @@ package base.spring.controller;
 import base.model.Employee;
 import base.model.Identity;
 import base.model.LoanAgreement;
+import base.model.LoanAgreement2;
 import base.service.EmployeeService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // import java.util.List;
@@ -33,6 +35,19 @@ public class MainController {
     @GetMapping("/")
     public String home(){
         return "home";
+    }
+
+    // --------------- login ------------------
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public void savelogin(String username, String password){
+        System.out.println("==== save login =====");
+
+        System.out.println(username + "\n" + password);
     }
 
     // -------------------------- add employee -------------------------
@@ -135,7 +150,7 @@ public class MainController {
         return"find";
     }
 
-    @PostMapping("/findEmployee")
+    @PostMapping("/find")
     public String findEmployeeById(@RequestParam("action") String action, String identity, String identityProof, Model dataModel){
         System.out.println("====== find employee controller =====");
         System.out.println("type = " + identity + "\tid = " + identityProof);
@@ -170,6 +185,7 @@ public class MainController {
                 else if(action.equals("applyloan")){
                     System.out.println("========= find -> apply loan call =========");
                     path = "redirect:./applyLoan?employeeid=" + employee.getEmployeeId();
+                    // path = "redirect:./loan";
                 }
                 else if(action.equals("loanDetails")){
                     System.out.println("======= find -> loan details call ========");
@@ -241,6 +257,12 @@ public class MainController {
 
     
     // ---------------- apply for loan ----------------
+    @GetMapping("/loan")
+    public String loan(){
+        return "checkEmpForLoan";
+    }
+
+
     @GetMapping("/applyLoan")
     public ModelAndView applyLoan(@RequestParam("employeeid") int id){
         System.out.println("============ apply loan =============");
@@ -248,26 +270,39 @@ public class MainController {
 
         String model = "loan";
         String view = "applyLoan";
-        LoanAgreement loan = new LoanAgreement();
+        // LoanAgreement loan = new LoanAgreement();
+        LoanAgreement2 loan = new LoanAgreement2();
 
         return new ModelAndView(view, model, loan);
     }  
 
     @PostMapping("/saveApplyLoan")
-    public String applyLoanPost(@RequestParam("employeeid") int id,  @ModelAttribute("loan") LoanAgreement loan){
+    public String applyLoanPost(@RequestParam("employeeid") int id,  @ModelAttribute("loan") LoanAgreement2 loan){
         System.out.println("=========== apply loan post ==========");
         System.out.println("id = " + id);
         System.out.println(loan);
 
         loan.calculateEMI();
         loan.generateRS();
-
+        
         // saving loan in db
         employeeService.save(loan);
 
         Employee employee = employeeService.getByEmpId(id);
+        
         // setting this loan with employee
-        employee.setLoan(loan);
+        // employee.setLoan(loan);
+
+        loan.setEmployee(employee);
+        List<LoanAgreement2> loan2 = employee.getLoan2();
+        if(loan2 == null){
+            loan2 = new ArrayList<>();
+            loan2.add(loan);
+            employee.setLoan2(loan2);
+        }
+        else{
+            employee.getLoan2().add(loan);
+        }
         
         // updating employee
         employeeService.update(employee);
@@ -277,29 +312,48 @@ public class MainController {
     }
 
     @GetMapping("/loanDetails")
+    // public String loanDetails(@RequestParam("employeeid") int id, Model dataModel){
+    //     System.out.println("============ loan details =================");
+    //     System.out.println("id = " + id);
+
+    //     Employee employee = employeeService.getByEmpId(id);
+    //     LoanAgreement loan = employee.getLoan();
+
+    //     if(loan == null){
+    //         dataModel.addAttribute("loanExists", "false");
+    //         return "redirect:./find?action=loanDetails";
+    //     }
+
+    //     dataModel.addAttribute("loan", loan);
+    //     dataModel.addAttribute("employee", employee);
+
+    //     System.out.println(loan);
+    //     System.out.println(loan.getRepaymentSchedule());
+
+    //     return "showLoan";
+    // }
+    
     public String loanDetails(@RequestParam("employeeid") int id, Model dataModel){
-        System.out.println("============ loan details =================");
-        System.out.println("id = " + id);
-
+        System.out.println("=========== all loan of an employee id = " + id);
+        
         Employee employee = employeeService.getByEmpId(id);
-        LoanAgreement loan = employee.getLoan();
+        List<LoanAgreement2> loans = employee.getLoan2();
 
-        if(loan == null){
-            dataModel.addAttribute("loanExists", "false");
-            return "redirect:./find?action=loanDetails";
-        }
+        dataModel.addAttribute("firstName", employee.getFirstName());
+        dataModel.addAttribute("loans", loans);
 
-        dataModel.addAttribute("loan", loan);
-        dataModel.addAttribute("employee", employee);
-
-        System.out.println(loan);
-        System.out.println(loan.getRepaymentSchedule());
-
-        return "showLoan";
+        return "showAllLoans";
     }
 
-    @GetMapping("/showloan")
-    public String showloan(){
+    @GetMapping("/showloanDetails")
+    public String showloanDetails(@RequestParam("loanid") int loanid, Model dataModel){
+        System.out.println("====== show loan by  id = " + loanid);
+
+        LoanAgreement2 loan = employeeService.getLoan2ById(loanid);
+
+        dataModel.addAttribute("loan", loan);
+        // dataModel.addAttribute("employee", nu);
+    
         return "showLoan";
     }
 

@@ -11,6 +11,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#modal-button').click(function(){
+                  $('#exampleModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            });
+        });
+    </script>
+
     <style>
         .hide{
             display: none;
@@ -85,6 +99,10 @@
                             <li><a class="dropdown-item" href="./find?action=loanDetails">Loan Details</a></li>
                         </ul>
                     </li>
+
+                    <li class="d-flex" style="margin-left: 155%;">
+                        <a href="./logout" class="btn btn-secondary" role="button">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -103,7 +121,7 @@
         </div>
 
 
-        <form   action="findEmployee" method="post" onsubmit="checkForm(this)">
+        <form   action="find" method="post" onsubmit="checkForm(this)">
             <div class="row">
                 <div class="form-group col-md-6">
                     <label>Identity Proof Choice</label>
@@ -131,25 +149,59 @@
             </div>
         </form>     
 
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" id="modal-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="display: none;">
+            Launch static backdrop modal
+        </button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Employee does not exist!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- <div class="modal-body">
+                ...
+                </div> -->
+                <div class="modal-footer">
+                    <a href="./addEmployee" class="btn btn-success">Add Employee</a>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
         window.onload = (event => {
-            var employeeExists = "${employeeExists}";
-            console.log("employee exists = ${employeeExists}")
-
             var params = new URLSearchParams(window.location.search);
-            var loanExists = "";
-            if(params.has("loanExists"))
-                loanExists = params.get("loanExists");
-            console.log("loan exists = " + loanExists);
-
-            if(employeeExists == "false"){
+            var action = params.get("action");
+            console.log("action = " + action);
+            
+            // ------------- employee check ---------------
+            var employeeExists = "${employeeExists}";
+            console.log("employee exists = ${employeeExists}")            
+        
+            if(employeeExists == "false" && action != "applyloan"){
                 var alertBox = document.getElementById("alert-danger");
                 console.log("alert box - " + alertBox);
                 alertBox.classList.remove("hide");
                 setTimeout(() => {alertBox.classList.add('hide')}, 2000);
             }
+
+            if(employeeExists == "false" && action == "applyloan"){
+                console.log("employee = false action = apply loan");
+                giveCustomerChoice();
+            }
+
+            // ------------------ loan check - if employee have any loans or not ------------
+            var loanExists = "";
+            if(params.has("loanExists"))
+                loanExists = params.get("loanExists");
+            console.log("loan exists = " + loanExists);
 
             if(loanExists == "false"){
                 var alertBox = document.getElementById("alert-danger");
@@ -161,13 +213,24 @@
             
         });
 
+        function giveCustomerChoice(){
+            document.getElementById("modal-button").click();
+            
+            $('#modal-button').click(function(){
+                $('#exampleModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            });
+        }
+
         function checkForm(form){
             console.log("function check form");
 
             var params = new URLSearchParams(window.location.search);
             var action = params.get("action");
 
-            var url = "findEmployee?action=" + action;
+            var url = "find?action=" + action;
 
             form.action = url;
 

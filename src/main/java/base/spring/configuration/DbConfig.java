@@ -4,6 +4,7 @@ import base.model.Address;
 import base.model.Employee;
 import base.model.FamilyMember;
 import base.model.LoanAgreement;
+import base.model.LoanAgreement2;
 
 import org.hibernate.SessionFactory;
 // import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class DbConfig {
          dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
         dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
         dataSource.setUsername("vanshika_o11");
-        dataSource.setPassword("vanshika_o11");
+        dataSource.setPassword("pass");
         return dataSource;
     }
 
@@ -56,7 +57,8 @@ public class DbConfig {
             Employee.class,
             Address.class,
             FamilyMember.class,
-            LoanAgreement.class
+            LoanAgreement.class,
+            LoanAgreement2.class
         );
 
         try {

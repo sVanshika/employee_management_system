@@ -126,6 +126,9 @@
                             <li><a class="dropdown-item" href="./find?action=loanDetails">Loan Details</a></li>
                         </ul>
                     </li>
+                    <li class="d-flex" style="margin-left: 155%;">
+                        <a href="./logout" class="btn btn-secondary" role="button">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -141,7 +144,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick=""></button>
     </div>
 
-    <div class="container"  style="width: 75%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2); border-radius: 20px; margin-bottom: 4rem;">
+    <div class="container"  style="width: 75%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2); border-radius: 20px; margin-bottom: 4rem; margin-top: 2rem;">
      
     
     <!-- title -->

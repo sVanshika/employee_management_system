@@ -12,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebSecurity
 @ComponentScan("base")
-// @Configuration
 
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -31,7 +30,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .anyRequest().hasRole("ADMIN")
             .and()
+            
             .formLogin()
+            .loginPage("/login")
+            .permitAll()
             .and()
             .httpBasic()
             .and()

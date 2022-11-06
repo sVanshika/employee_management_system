@@ -117,6 +117,9 @@
                                 <li><a class="dropdown-item" href="./find?action=loanDetails">Loan Details</a></li>
                             </ul>
                         </li>
+                        <li class="d-flex" style="margin-left: 200%;">
+                            <a href="./logout" class="btn btn-secondary" role="button">Logout</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -205,7 +208,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label id="identityProofLabel">Choose Identity</label>
-                    <input id="identityProof" name="identityProof" class="form-control" onblur="verifyLength()" required >
+                    <input id="identityProof" name="identityProof" class="form-control" onblur="verifyID()" required >
                     <div class="invalid-feedback" id="idProof-invalid-feedback">
                         Please enter valid Identity Proof. <br><small>Length should be greater than 9 characters.</small>
                     </div>
@@ -216,7 +219,7 @@
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label>Mobile Number</label>
-                    <input id="mobileNumber" name="mobileNumber" class="form-control" >
+                    <input id="mobileNumber" name="mobileNumber" class="form-control" onblur="checkMobileNumber()">
                 </div>
                 <div class="form-group col-md-4">
                     <label>Religion</label>
@@ -233,7 +236,8 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label>Email Id</label>
-                    <input id="emailId" name="emailId" class="form-control" type="email">
+                    <input id="emailId" name="emailId" class="form-control" type="email" onblur="verifyEmail()">
+                    <div class="invalid-feedback">Please enter valid email id.</div>
                 </div>
             </div>
 
@@ -288,7 +292,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Pincode</label>
-                                    <input id="pincode" name="tempAddress.pincode" class="form-control" onblur="verifyLength()" required>
+                                    <input id="pincode" name="tempAddress.pincode" class="form-control" onblur="verifyTempPincode()" required>
                                     <div class="invalid-feedback" id="tempPinCode-invalid-feedback">
                                         Please enter pincode <br><small>Length should be equal to 6 characters.</small>
                                     </div>
@@ -349,7 +353,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Pincode</label>
-                                    <input id="pincode_perm" name="permAddress.pincode" class="form-control" onblur="verifyLength()" required >
+                                    <input id="pincode_perm" name="permAddress.pincode" class="form-control" onblur="verifyPermPincode()" required >
                                     <div class="invalid-feedback" id="permanentPinCode-invalid-feedback">Please enter pincode <br><small>Length should be equal to 6 characters.</small></div>
                                     <!-- <div class="valid-feedback">Looks Good</div> -->
                                 </div>
@@ -624,11 +628,8 @@
             
             }
 
-            function verifyLength(){
+            function verifyID(){
                 var id = document.getElementById('identityProof');
-                var pincode = document.getElementById('pincode');
-                var pincode_perm = document.getElementById('pincode_perm');
-                
                 if(id.value.length < 9){
                     console.log("id length is < 9");
                     id.value = "";
@@ -640,7 +641,10 @@
                     }
                     id.classList.add("is-valid");
                 }
+            }
 
+            function verifyTempPincode(){
+                var pincode = document.getElementById('pincode');
                 if(pincode.value.length != 6){
                     pincode.value = "";
                     pincode.classList.add("is-invalid");
@@ -651,7 +655,10 @@
                     }
                     pincode.classList.add("is-valid");
                 }
-
+            }
+            
+            function verifyPermPincode(){
+                var pincode_perm = document.getElementById('pincode_perm');
                 if(pincode_perm.value.length != 6){
                     pincode_perm.value = "";
                     pincode_perm.classList.add("is-invalid");
@@ -661,6 +668,20 @@
                         pincode_perm.classList.remove("is-invalid");
                     }
                     pincode_perm.classList.add("is-valid");
+                }
+            }
+
+            function checkMobileNumber(){
+                var mobile = document.getElementById('mobileNumber');
+                if(mobile.value.length != 10){
+                    mobile.value = "";
+                    mobile.classList.add("is-invalid");
+                }
+                else{
+                    if(mobile.classList.contains("is-invalid")){
+                        mobile.classList.remove("is-invalid");
+                    }
+                    mobile.classList.add("is-valid");
                 }
             }
 
@@ -793,6 +814,30 @@
             })()
 
 
+            function verifyEmail(){
+                console.log("VERIFY EMAIL CALL");
+
+                var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                
+                var email = document.getElementById('emailId');
+                console.log("EMAIL = " + email.value);
+
+                // var isEmailValid = (email.value).match(validRegex);
+                var isEmailValid = validRegex.test(email.value);
+
+
+                console.log("is email valid - " + isEmailValid);
+
+                if(!isEmailValid){
+                    email.innerHTML = "";
+                    email.classList.add("is-invalid");
+                }
+                else{
+                    email.classList.remove("is-invalid");
+                    email.classList.add("is-valid");
+                }
+            };
+            
         </script>
 
         </div>

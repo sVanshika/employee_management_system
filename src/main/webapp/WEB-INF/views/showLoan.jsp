@@ -125,6 +125,9 @@
                             <li><a class="dropdown-item" href="./find?action=loanDetails">Loan Details</a></li>
                         </ul>
                     </li>
+                    <li class="d-flex" style="margin-left: 155%;">
+                        <a href="./logout" class="btn btn-secondary" role="button">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -135,7 +138,7 @@
 
         <!-- title -->
         <div class="title d-flex justify-content-center">
-            <h1 class="title">${employee.firstName}'s Loan Details</h1>
+            <h1 class="title">Loan Details</h1>
         </div>
 
         <!-- salary, loan, profile eligibility, repayment schedule -->

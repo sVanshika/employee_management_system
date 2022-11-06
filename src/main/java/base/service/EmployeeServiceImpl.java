@@ -4,6 +4,7 @@ import base.dao.EmployeeDao;
 import base.model.Employee;
 import base.model.Identity;
 import base.model.LoanAgreement;
+import base.model.LoanAgreement2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -82,5 +83,20 @@ public class EmployeeServiceImpl implements EmployeeService{
         // TODO Auto-generated method stub
         System.out.println("========== emp service save loan =============");
         employeeDao.save(loan);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void save(LoanAgreement2 loan) {
+        // TODO Auto-generated method stub
+        System.out.println("========== emp service save loan2 =============");
+        employeeDao.save(loan);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public LoanAgreement2 getLoan2ById(int loanid){
+        System.out.println("====== emp service get loan by id ======");
+        return employeeDao.getLoan2ById(loanid);
     }
 }

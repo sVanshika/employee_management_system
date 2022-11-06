@@ -3,6 +3,7 @@ package base.dao;
 import base.model.Employee;
 import base.model.Identity;
 import base.model.LoanAgreement;
+import base.model.LoanAgreement2;
 
 import java.util.List;
 
@@ -17,5 +18,8 @@ public interface EmployeeDao {
     void delete(Employee employee);
 
     void save(LoanAgreement loan);
+    void save(LoanAgreement2 loan);
+
+    LoanAgreement2 getLoan2ById(int loanid);
     
 }

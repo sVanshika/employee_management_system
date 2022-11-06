@@ -3,6 +3,7 @@ package base.dao;
 import base.model.Employee;
 import base.model.Identity;
 import base.model.LoanAgreement;
+import base.model.LoanAgreement2;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -38,6 +39,20 @@ public class EmployeeDaoImpl implements EmployeeDao{
         // employee.getLoan();
 
         // employee.getFamilyMembers();
+
+        try {
+            employee.getLoan2().get(0).getDbr();
+            employee.getLoan2().get(0).getRepaymentSchedule().get(0).getEndingAmount();
+        }
+        catch (Exception e) {
+            System.out.println("== emp dao impl - loan 2 repay sch = null ==");
+            try {
+                employee.getLoan2();
+            } catch (Exception er) {
+                //TODO: handle exception
+                employee.getLoan2();
+            }
+       }
 
         return employee;
     }
@@ -136,6 +151,13 @@ public class EmployeeDaoImpl implements EmployeeDao{
                 employee.getLoan();
             }
        }
+
+        try{
+            employee.getLoan2().get(0).getDbr();
+        }
+        catch(Exception e){
+            employee.getLoan2();
+        }
        
         
         return employee;
@@ -152,5 +174,23 @@ public class EmployeeDaoImpl implements EmployeeDao{
     public void save(LoanAgreement loan) {
         // TODO Auto-generated method stub
         sessionFactory.getCurrentSession().save(loan);
+    }
+
+    @Override
+    public void save(LoanAgreement2 loan) {
+        // TODO Auto-generated method stub
+        sessionFactory.getCurrentSession().save(loan);
+    }
+
+    @Override
+    public LoanAgreement2 getLoan2ById(int loanid){
+        System.out.println("==== emp dao get loan by id ====");
+        LoanAgreement2 loan = sessionFactory.getCurrentSession().load(LoanAgreement2.class, loanid);
+
+        loan.getDbr();
+
+        System.out.println(loan);
+
+        return loan;
     }
 }

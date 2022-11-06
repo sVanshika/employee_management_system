@@ -62,6 +62,9 @@ public class Employee {
     @CollectionTable(name = "FamilyMember", joinColumns = @JoinColumn(name = "FamilyMember"))
     private List<FamilyMember> familyMembers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "emp", cascade = {CascadeType.ALL})
+    private List<LoanAgreement2> loan2 = new ArrayList<>();
+
 
     @OneToOne()
     @JoinColumn(name = "loanid")
@@ -264,6 +267,16 @@ public class Employee {
                 ", mobileNumber=" + mobileNumber +
                 ", familyMembers=" + familyMembers +
                 ", loan=" + loan +
+                ", loan 2 =" + "loan2" + 
                 '}';
+    }
+
+
+    public List<LoanAgreement2> getLoan2() {
+        return loan2;
+    }
+
+    public void setLoan2(List<LoanAgreement2> loan2) {
+        this.loan2 = loan2;
     }
 }

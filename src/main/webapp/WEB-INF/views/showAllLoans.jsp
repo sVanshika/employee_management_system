@@ -1,6 +1,8 @@
-<%@ taglib  prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page isELIgnored="false"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:formatNumber value="${emi.installment}" pattern="#.00" />
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply Loan</title>
+    <title>Loan Details</title>
 
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -17,7 +19,10 @@
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
-    <!-- <link rel="stylesheet" type="text/css" href="../../resources/style.css"> -->
+    <!-- datatable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 
     <style>
         .container{
@@ -27,22 +32,9 @@
         .subheading{
             margin-top: 1rem;
         }
-        
-        .hide{
-            visibility: hidden;
+        .tab-pane{
+            padding: 2rem 0;
         }
-        .alert{
-            z-index: 10;
-            padding-bottom: 0;
-        }
-        .alert-success, .alert-danger{
-            width: 25%;
-            position: fixed;
-            right: 1px;
-        }
-        /* .hide{
-            display: none;
-        } */
         .input-box{
             position: relative;
         }
@@ -52,6 +44,8 @@
             left: 0;
         }
         .prefix{
+            margin-left: 12px;
+            margin-top: 1px;
             z-index: 9;
             background-color: #E9ECEF;
             padding: 0.4rem 1rem;
@@ -62,6 +56,9 @@
         }
         .form-control[readonly]{
             background-color: white;
+        }
+        label{
+            font-weight: bold;
         }
         /* navbar and hero section */
         .heading{
@@ -137,99 +134,60 @@
         </div>
     </nav>
 
-    <div class="container"  style="width: 75%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2); border-radius: 20px;">
-     
+
+    <div class="container">
+
+        <!-- title -->
+        <div class="title d-flex justify-content-center">
+            <h1 class="title">${firstName}'s Loan Details</h1>
+        </div>
+
+        
+        
+        <div class="container">    
+            <!-- <div class="tab-pane fade" id="nav-repay-sch" role="tabpanel" aria-labelledby="nav-repay-sch-tab"> -->
+                <!-- <h3 class="heading"></h3> -->
+                <table class="table table-striped" id="rs-table">
+                    <thead>
+                        <tr>
+                            <th>Loan ID</th>
+                            <th>Loan Amount (Rs.)</th>
+                            <th>ROI (% pa)</th>
+                            <th>Tenure</th>
+                            <th>Repayment Frequency</th>
+                            <th>EMI Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <c:forEach items="${loans}" var="loan">
+
+                            <tr>
+                                <th>
+                                    <a href="/showloanDetails?loanid=${loan.loanid}">${loan.loanid}</a>
+                                </th>
+                                <th>${loan.loanAmountAsked}</th>
+                                <th>${loan.rate}</th>
+                                <th>${loan.tenure}</th>
+                                <th>${loan.repaymentFrequency}</th>
+                                <th>${loan.emiAmount}</th>
+                            </tr>
+
+                        </c:forEach>
+                    </tbody>
+
+                </table>
+            <!-- </div> -->
+        </div>
+
+
+    </div>
     
-    <!-- title -->
-    <div class="title d-flex justify-content-center my-3">
-        <h1 class="title">${employee.firstName} 's Loan Details</h1>
-    </div>
-
-    <form>
-
-        <!-- salary details - income, expense -->
-        <h5 class="subheading">Salary Details</h5>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label for="monthlyIncome">Monthly Income</label>
-                <div class="input-box">
-                    <span class="input-comp prefix">Rs.</span>
-                    <input value="${loan.monthlyIncome}" id="monthlyIncome" name="monthlyIncome" class="form-control" type="number" readonly>
-                </div>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="totalMonthlyExpense">Total Monthly Expense</label>
-                <div class="input-box">
-                    <span class="input-comp prefix">Rs.</span>
-                    <input value="${loan.totalMonthlyExpense}" id="totalMonthlyExpense" name="totalMonthlyExpense" class="form-control" type="number" readonly>
-                </div>                
-            </div>
-        </div>
-
-        <!-- loan details - loan amount, rate, tenure, repayment frequency -->
-        <h5 class="subheading">Loan Details</h5>
-        <div class="row">
-            <div class="form-group col-md-3">
-                <label for="loanAmountAsked">Loan Amount</label>
-                <div class="input-box">
-                    <span class="input-comp prefix">Rs.</span>
-                    <input value="${loan.loanAmountAsked}" id="loanAmountAsked" name="loanAmountAsked" class="form-control" readonly>
-                </div>                
-            </div>
-            <div class="form-group col-md-3">
-                <label for="rate">ROI (p.a.)</label>
-                <input value="${loan.rate}" id="rate" name="rate" class="form-control" type="number" readonly>
-            </div>
-            <div class="form-group col-md-3">
-                <label for="tenure">Tenure (in years)</label>
-                <input value="${loan.tenure}" id="tenure" name="tenure" class="form-control" type="number" readonly>
-                <!-- <div id="tenure_invalid_feedback" class="hide" style="color: red;">Max tenure is 50 years.</div> -->
-            </div>
-            <div class="form-group col-md-3">
-                <label for="repaymentFrequency">Repayment Frequency</label>
-                <input value="${loan.repaymentFrequency}" name="repaymentFrequency" id="repaymentFrequency" class="form-select" type="text" readonly>
-            </div>
-        </div>
-
-        <!-- derived values - dbr, max eligible loan amt, max emi -->
-        <h5 class="subheading"></h5>
-        <div class="row results">
-            <div class="form-group col-md-4">
-                <label for="dbr">DBR (in %)</label>
-                <input value="${loan.dbr}" id="dbr" name="dbr" class="form-control" type="number" readonly>
-            </div>
-            <div class="form-group col-md-4">
-                <label for="maxEligibleLoanAmount">Max Eligible Loan Amount</label>
-                <div class="input-box">
-                    <span class="input-comp prefix">Rs.</span>
-                    <input value="${loan.maxEligibleLoanAmount}" id="maxEligibleLoanAmount" name="maxEligibleLoanAmount" class="form-control" type="number" readonly>
-                </div>   
-                
-            </div>
-            <div class="form-group col-md-4">
-                <label for="maxEligibleEmi">Max Eligible EMI</label>
-                <div class="input-box">
-                    <span class="input-comp prefix">Rs.</span>
-                    <input value="${loan.maxEligibleEmi}" id="maxEligibleEmi" name="maxEligibleEmi" class="form-control" type="number" readonly>
-                </div>                   
-            </div>
-        </div>
-
-        <!-- buttons -->
-        <div class="d-flex justify-content-center mt-3">
-            <!-- <input class="btn btn-success" type="submit" style="padding: 1rem 3rem; margin: 1rem;"> -->
-            <a class="btn btn-danger" href="./" style="padding: 1rem 3rem; margin: 1rem;">Home</a>
-            <!-- <input class="btn btn-secondary" type="reset" value="Clear"
-                style="padding: 1rem 3rem; margin: 1rem;"
-                onclick="clearApprovedField()"> -->
-        </div>
-
-    </form>
-
-
-    </div>
-
     <script>
+        $(document).ready(function () {
+            $('#rs-table').DataTable();
+        });
+
         window.onload = (() => {
             setRepaymentFrequency();
         })
@@ -250,7 +208,6 @@
         }
     </script>
 
-    
-    
+
 </body>
 </html>

@@ -125,10 +125,15 @@
                             <li><a class="dropdown-item" href="./find?action=loanDetails">Loan Details</a></li>
                         </ul>
                     </li>
+
+                    <li class="d-flex" style="margin-left: 200%;">
+                        <a href="./logout" class="btn btn-secondary" role="button">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
+    
     <div class="alert alert-danger hide alert-dismissible" id="alert-danger" role="alert">
         <p id="alert-danger-p">Employee does not exist</p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick=""></button>

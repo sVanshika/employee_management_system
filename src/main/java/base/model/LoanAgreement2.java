@@ -1,10 +1,10 @@
 package base.model;
 
-import java.security.PublicKey;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
@@ -22,10 +22,11 @@ import org.hibernate.annotations.ManyToAny;
 
 @Entity
 // @Embeddable
-public class LoanAgreement {
+public class LoanAgreement2 {
+    
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO, generator="loan_seq_gen")
-    @SequenceGenerator(name="loan_seq_gen", initialValue = 101, allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.AUTO, generator="loan2_seq_gen")
+    @SequenceGenerator(name="loan2_seq_gen", initialValue = 101, allocationSize = 1)
     private int loanid;
 
     // employee financial details
@@ -49,15 +50,15 @@ public class LoanAgreement {
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
 
-    @OneToOne(mappedBy = "loan")
-    // @JoinColumn(name = "empid")
-    private Employee employee;
+    @ManyToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name="employeeId")
+    private Employee emp;
 
     @ElementCollection
-    @CollectionTable(name = "emi", joinColumns = @JoinColumn(name = "loanid"))
-    private List<EMI> repaymentSchedule = new ArrayList<>();
+    @CollectionTable(name = "emi2", joinColumns = @JoinColumn(name = "loanid"))
+    private List<EMI2> repaymentSchedule = new ArrayList<>();
 
-    public LoanAgreement() {
+    public LoanAgreement2() {
     }
 
     public double getEmiAmount() {
@@ -104,7 +105,7 @@ public class LoanAgreement {
             principalPaid = Double.parseDouble(df.format(principalPaid));
             endingAmount = Double.parseDouble(df.format(endingAmount));
 
-            EMI emi = new EMI();
+            EMI2 emi = new EMI2();
             emi.setMonth(month);
             emi.setBeginningAmount(beginningAmount);
             emi.setInstallment(installment);
@@ -122,11 +123,11 @@ public class LoanAgreement {
         }
     }
 
-    public List<EMI> getRepaymentSchedule() {
+    public List<EMI2> getRepaymentSchedule() {
         return repaymentSchedule;
     }
 
-    public void setRepaymentSchedule(List<EMI> repaymentSchedule) {
+    public void setRepaymentSchedule(List<EMI2> repaymentSchedule) {
         this.repaymentSchedule = repaymentSchedule;
     }
 
@@ -231,18 +232,17 @@ public class LoanAgreement {
     }
 
     public Employee getEmployee() {
-        return employee;
+        return emp;
     }
 
     public void setEmployee(Employee employee) {
-        this.employee = employee;
+        this.emp = employee;
     }
 
     @Override
-    public String  toString() {
-        return "LoanAgreement{" +
+    public String toString() {
+        return "LoanAgreement2{" +
                 "loanid=" + loanid +
-                ", empoyeeid=" + "employeeid" +
                 ", loanAmountAsked=" + loanAmountAsked +
                 ", monthlyIncome=" + monthlyIncome +
                 ", totalMonthlyExpense=" + totalMonthlyExpense +
@@ -254,10 +254,9 @@ public class LoanAgreement {
                 ", repaymentFrequency=" + repaymentFrequency +
                 ", approved=" + approved +
                 ", reason='" + reason + '\'' +
+                ", emiAmount=" + emiAmount +
+//                ", emp=" + emp +
+                ", repaymentSchedule=" + repaymentSchedule +
                 '}';
     }
-
-    
-
-
 }

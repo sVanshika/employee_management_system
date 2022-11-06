@@ -62,6 +62,9 @@
             border-bottom: 1px solid #eee;
             font-size: 1.5rem;
         }
+        .accordion-btn:focus-visible{
+            outline: none !important;
+        }
     </style>
 
 
@@ -101,15 +104,21 @@
                             <li><a class="dropdown-item" href="./find?action=loanDetails">Loan Details</a></li>
                         </ul>
                     </li>
+                    <li class="d-flex" style="margin-left: 200%;">
+                        <a href="./logout" class="btn btn-secondary" role="button">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container"  style="width: 75%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);border-radius: 20px;">
+    <div class="container"  style="width: 75%;
+        box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+        border-radius: 20px;
+        ">
     <!-- title -->
     <div class="title d-flex justify-content-center my-3">
-        <h1 class="title">Employee Details</h1>
+        <h1 class="title">Delete Employee</h1>
     </div>
 
     
@@ -166,7 +175,7 @@
             <div class="card">
                 <div class="card-header" id="temporaryAddress">
                     
-                        <button class="btn mb-0" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        <button class="btn mb-0 accordion-btn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                             Temporary Address
                         </button>
                     
@@ -218,7 +227,7 @@
             <div class="card">
                 
                 <div class="card-header" id="permanentAddress">
-                    <button class="btn mb-0" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <button class="btn mb-0 accordion-btn" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                             Permanent Address
                     </button>                          
                 </div>
@@ -278,7 +287,7 @@
             <div class="card">
             
                 <div class="card-header" id="familyMembers">
-                    <button class="btn mb-0" type="button" data-toggle="collapse" data-target="#collapseOneFamily" aria-expanded="false" aria-controls="collapseOneFamily">
+                    <button class="btn mb-0 accordion-btn" type="button" data-toggle="collapse" data-target="#collapseOneFamily" aria-expanded="false" aria-controls="collapseOneFamily">
                             Family Members
                     </button>                          
                 </div>

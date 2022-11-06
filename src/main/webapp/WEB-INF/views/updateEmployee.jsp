@@ -110,16 +110,25 @@
                             <li><a class="dropdown-item" href="./find?action=loanDetails">Loan Details</a></li>
                         </ul>
                     </li>
+
+                    <li class="d-flex" style="margin-left: 155%;">
+                        <a href="./logout" class="btn btn-secondary" role="button">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container"  style="width: 75%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);border-radius: 20px;">
+    <div class="container"  
+        style="width: 75%;
+            box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+            border-radius: 20px; 
+            padding: 1rem; 
+            margin-top: 2rem;">
     
     <!-- title -->
     <div class="title d-flex justify-content-center my-3">
-        <h1 class="title">Employee Details</h1>
+        <h1 class="title">Update Employee</h1>
     </div>
 
     <form:form action="saveUpdatedEmployee" method="post" modelAttribute="employeeToUpdate" path="form" onsubmit="checkForm()">
@@ -175,7 +184,7 @@
             </div>
         </div>
             
-        <!-- path, path proof -->
+        <!-- id, id proof -->
         <div class="row">
             <div class="form-group col-md-6">
                 <label>Identity Proof Choice *</label>
@@ -204,7 +213,7 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Plot No.</label>
-                                <form:input id="plotno" path="tempAddress.plotNo" class="form-control"     />
+                                <form:input id="plotNo" path="tempAddress.plotNo" class="form-control"     />
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Locality</label>
@@ -251,7 +260,7 @@
                     <div class="accordion-body">
                         
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkbox" onchange="putAddress(this)">
+                            <input class="form-check-input" type="checkbox" value="" id="checkbox" onclick="putAddress(this)">
                             <label class="form-check-label" for="checkbox">
                                 Same as Temporary Address
                             </label>
@@ -260,7 +269,7 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Plot No.</label>
-                                <form:input id="plotno_perm" path="permAddress.plotNo" class="form-control"     />
+                                <form:input id="plotNo_perm" path="permAddress.plotNo" class="form-control"     />
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Locality</label>
@@ -368,6 +377,15 @@
         createFamily();
     })
 
+    function checkForm(){
+        const ages = document.getElementsByClassName("age-field");
+        for(let i=0; i<ages.length; i++){
+            if(ages[i].value == ''){
+                ages[i].value = '0';
+            }
+        }
+    }
+
     function createFamily(){
         // adding new boxes
         for (let i = 0; i < count; i++) {
@@ -423,7 +441,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Age</label>
-                                <input id="`+age+`" name="`+age+`" class="form-control" />
+                                <input id="`+age+`" name="`+age+`" class="form-control age-field" />
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Relation</label>
@@ -468,6 +486,8 @@
         var country = document.getElementById('country').value;
         var locality = document.getElementById('locality').value;
         var pincode = document.getElementById('pincode').value;
+
+        console.log(plotno + "-" + city + "-" + state + "-" + country + "-" + locality + "-" + pincode);
 
         if($(obj).is(":checked")){
                 console.log("address checkbox checked");
